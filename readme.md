@@ -1,1 +1,1 @@
-Employee Leave Rongo University
+Employee Leave Management Rongo University
