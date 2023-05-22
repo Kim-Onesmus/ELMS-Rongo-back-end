@@ -1,0 +1,84 @@
+{% extends 'admin1.html' %}
+{% load static %}
+{% block content %}
+<!-- <script src="{% static 'js/script.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
+<div class="preloader">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
+<!-- <div id="formPopup" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeFormPopup()">&times;</span>
+        <div id="formPopupContent"></div>
+    </div>
+</div> -->
+
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-7 align-self-center">
+                    <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">All Leaves</h4>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div style="box-shadow: 0 15px 30px rgba(8, 8, 8, 0.556);" class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee</th>
+                                            <th>Department</th>
+                                            <th>Leave Type</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Leave Status</th>
+                                            <th>Action</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for data in leaves reversed %}
+                                        {% if data.leave_status == 'Pending' %} 
+                                        {% if data.leave_status == 'Rejected' %}
+                                        <p style="display: none;"></p>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if data.leave_status == 'Accepted' %}
+                                        <tr>
+                                            <td>
+                                                <img src="{{data.user.image.url}}" alt="user" class="rounded-circle" width="45"
+                                                height="45">
+                                                <p>{{data.user}}</p>
+                                            </td>
+                                            <td>{{data.user.department}}</td>
+                                            <td>{{data.leave_type}}</td>
+                                            <td>{{data.start_date}}</a></td>
+                                            <td>{{data.end_date}}</a></td>
+                                            <td style="color: green;">{{data.leave_status1}}</a></td>
+                                            <td><button style="background-color: darkcyan;"><a style="color: black;" href="{% url 'action' data.id %}">Action</a></button></td>
+                                            <td>{{data.comment}}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer text-center text-muted">
+            All Rights Reserved. Designed and Developed by <a
+                href="https://wrappixel.com">..........</a>.
+        </footer>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+<!--   03:20:39 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>RongoShops</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+
+</head>
+
+<body>
+    <form style="text-align: center; margin-top: 100px;" method="POST" action="">
+        {% csrf_token %}
+        <p>{{user.username}}, Are you sure you want to Log Out?</p>
+        <a style="background-color: green;text-decoration: none;padding: 5px;color: black;" href="{{request.META.HTTP_REFERER}}">Go Back</a> &nbsp;&nbsp;&nbsp;
+        <input style="background-color: red;padding: 5px;" type="submit" value="Log Out"/>
+    </form>
+
+</body>
+</html>

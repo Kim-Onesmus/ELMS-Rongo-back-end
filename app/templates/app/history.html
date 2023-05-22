@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="page-wrapper">
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-7 align-self-center">
+                <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">History</h4>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div style="box-shadow: 0 15px 30px rgba(8, 8, 8, 0.556);" class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                <thead>
+                                    <tr>
+                                        <th>Leave Type</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Leave Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data in leaves reversed %}
+                                    <tr>
+                                        <td>{{data.leave_type}}</td>
+                                        <td><a href="javascript:void(0)" class="font-weight-medium link">{{data.start_date}}</a></td>
+                                        <td><a href="javascript:void(0)" class="font-bold link">{{data.end_date}}</a></td>
+                                        <td style="color: green;">{{data.leave_status}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <!-- <ul class="pagination float-right">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer text-center text-muted">
+        All Rights Reserved. Designed and Developed by <a
+            href="https://wrappixel.com">..........</a>.
+    </footer>
+</div>
+
+
+</div>
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/plugins.css' %}">
+    
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+</head>
+
+<body>
+    <form style="text-align: center; margin-top: 100px;" method="POST" action="">
+        {% csrf_token %}
+        <p>{{request.user}} Are you sure you want to delete {{obj}}?</p>
+        <a style="background-color: green;padding: 6px;" href="{{request.META.HTTP_REFERER}}">Go Back</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input style="background-color: red;" type="submit" value="confirm" />
+    </form>
+
+</body>
+</html>

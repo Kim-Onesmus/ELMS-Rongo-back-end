@@ -1,0 +1,162 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-7 align-self-center">
+                    <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">{{request.user.worker.name}}!</h3>
+                    <div class="d-flex align-items-center">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb m-0 p-0">
+                                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Dashboard</a>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Column -->
+                                <div class="col-md-6 col-lg-3 col-xlg-3">
+                                    <div class="card card-hover">
+                                        <div class="p-2 bg-primary text-center">
+                                            <h1 class="font-light text-white">{{all_workers}}</h1>
+                                            <h6 class="text-white">Total Workers</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Column -->
+                                <div class="col-md-6 col-lg-3 col-xlg-3">
+                                    <div class="card card-hover">
+                                        <div class="p-2 bg-cyan text-center">
+                                            <h1 class="font-light text-white">{{leave_accepted}}</h1>
+                                            <h6 class="text-white">Workers On Leave</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Column -->
+                                <div class="col-md-6 col-lg-3 col-xlg-3">
+                                    <div class="card card-hover">
+                                        <div class="p-2 bg-success text-center">
+                                            <h1 class="font-light text-white">{{leave_pending}}</h1>
+                                            <h6 class="text-white">Pending Leaves</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Column -->
+                                <div class="col-md-6 col-lg-3 col-xlg-3">
+                                    <div class="card card-hover">
+                                        <div class="p-2 bg-danger text-center">
+                                            <h1 class="font-light text-white">{{leave_reject}}</h1>
+                                            <h6 class="text-white">Rejected Leaves</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Column -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-4">
+                                <h4 style="border-bottom: 2px solid green;" class="card-title">My Leaves</h4>
+                            </div>
+                            <div style="box-shadow: 0 15px 30px rgba(8, 8, 8, 0.556); height: 300px;" class="table-responsive">
+                                <table class="table no-wrap v-middle mb-0">
+                                    <thead>
+                                        <tr class="border-0">
+                                            <th class="border-0 font-14 font-weight-medium text-dark">Worker
+                                            </th>
+                                            <th class="border-0 font-14 font-weight-medium text-dark px-2">
+                                                Leave Type
+                                            </th>
+                                            <th class="border-0 font-14 font-weight-medium text-dark px-2">
+                                                Department
+                                            </th>
+                                            <th class="border-0 font-14 font-weight-medium text-dark">Leave Status
+                                            </th>
+                                            <th class="border-0 font-14 font-weight-medium text-dark text-center">
+                                                Start Date
+                                            </th>
+                                            <th class="border-0 font-14 font-weight-medium text-dark text-center">
+                                                End Date
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for data in leaves reversed %}
+                                        <tr>
+                                            <td class="border-top-0 px-2 py-4">
+                                                <div class="d-flex no-block align-items-center">
+                                                    <div class="mr-3"><img
+                                                            src="{{data.user.image.url}}"
+                                                            alt="user" class="rounded-circle" width="45"
+                                                            height="45" /></div>
+                                                    <div class="">
+                                                        <h5 class="text-dark mb-0 font-16 font-weight-medium">{{data.user}}</h5>
+                                                        <span class="text-muted font-14">{{data.user.email}}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="border-top-0 text-muted px-2 py-4 font-14">{{data.leave_type}}</td>
+                                            <td class="border-top-0 text-muted px-2 py-4 font-14">{{data.user.department}}</td>
+                                            {% if data.leave_status == 'Accepted' %}
+                                            {% if data.leave_status1 == 'Accepted' %}
+                                            <td style="color: green;" class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">
+                                                Accepted
+                                            </td>
+                                            {% endif %}
+                                            {% endif %}
+                                            {% if data.leave_status == 'Rejected' %}
+                                            <td style="color: red;" class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">
+                                                Rejected
+                                            </td>
+                                            {% endif %}
+                                            {% if data.leave_status == 'Pending' %}
+                                            {% if data.leave_status1 == 'Pending' %}
+                                            <td style="color: dodgerblue;" class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">
+                                                Pending
+                                            </td>
+                                            {% endif %}
+                                            {% endif %}
+                                            <td
+                                                class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">
+                                                {{data.start_date}}
+                                            </td>
+                                            <td
+                                            class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">
+                                            {{data.end_date}}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <ul class="pagination float-right">
+                                    <li class="page-item">
+                                        <a style="color: dodgerblue;padding-right: 40px;" href="{% url 'history' %}" tabindex="-1"><u>View all</u></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer text-center text-muted">
+            All Rights Reserved. Designed and Developed by
+            <a href="https://wrappixel.com">..........</a>.
+        </footer>
+    </div>
+</div>
+{% endblock content %}
