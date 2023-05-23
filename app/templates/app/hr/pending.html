@@ -23,6 +23,7 @@
                                             <th>Leave Type</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
+                                            <th>Leae days remaining</th>
                                             <th>Leave Status</th>
                                             <th>Action</th>
                                             <th>Comment</th>
@@ -46,6 +47,7 @@
                                             <td>{{data.leave_type}}</td>
                                             <td>{{data.start_date}}</a></td>
                                             <td>{{data.end_date}}</a></td>
+                                            <td>{{data.user.leave_days}}</td>
                                             <td style="color: dodgerblue;">{{data.leave_status1}}</a></td>
                                             <td><button style="background-color: darkcyan;"><a style="color: black;" href="{% url 'action' data.id %}">Action</a></button></td>
                                             <td>{{data.comment}}</td>

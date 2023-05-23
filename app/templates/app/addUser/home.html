@@ -10,6 +10,7 @@
     
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin1.css' %}">
 
 </head>
 
@@ -45,8 +46,10 @@
                             <ul class="offcanvas_main_menu">
                                 <li><a href="{% url 'home' %}">home</a></li>
                                 <li><a href="{% url 'add_user' %}"> Add Users</a></li>
+                                <li><a href="">Add Superusers</a></li>
                                 <li><a href="{% url 'all_users' %}"> All Users</a></li>
-                                <!-- <li><a href=""> Privacy policy</a></li> -->
+                                <li><a href="">Add Department</a></li>
+                                <li><a href="">Add Job Group</a></li>
                                 <li><a href="{% url 'logout' %}">LogOut</a></li>
                                 <li class="menu-item-has-children">
                                 </li>
@@ -96,8 +99,10 @@
                                     <ul>
                                         <li><a href="{% url 'home' %}">home</a></li>
                                         <li><a href="{% url 'add_user' %}"> Add Users</a></li>
+                                        <li><a href="{% url 'jobgroup' %}">Add Job Group</a></li>
+                                        <li><a href="{% url 'super_user' %}">Add Superusers</a></li>
                                         <li><a href="{% url 'all_users' %}"> All Users</a></li>
-                                        <!-- <li><a href=""> Privacy policy</a></li> -->
+                                        <li><a href="{% url 'add_department' %}">Add Department</a></li>
                                         <li><a href="{% url 'logout' %}">LogOut</a></li>
                                     </ul>  
                                 </nav> 
@@ -204,8 +209,8 @@
                                     <td>{{data.name}}</td>
                                     <td>{{data.username}}</td>
                                     <td>{{data.department}}</td>
-                                    <td><a style="background-color: green;" href="{% url 'update_user1' data.id %}">Update</a></td>
-                                    <td><a style="background-color: red;" href="{% url 'delete_user' data.id %}">Delete</a></td>
+                                    <td><button><a href="{% url 'update_user1' data.id %}">Update</a></button></td>
+                                    <td><button><a href="{% url 'delete_user' data.id %}">Delete</a></button></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

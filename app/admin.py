@@ -4,7 +4,7 @@ from .models import Worker, Leave
 
 @admin.register(Worker)
 class WorkerTable(admin.ModelAdmin):
-    list_display = ('name', 'department', 'section')
+    list_display = ('name', 'department', 'job_group')
   
     
 @admin.register(Leave)

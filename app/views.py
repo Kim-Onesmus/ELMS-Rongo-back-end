@@ -9,8 +9,8 @@ from datetime import datetime, date
 from datetime import timedelta
 from django.contrib import messages
 from django.conf import settings
-from .models import Worker, Leave
-from .forms import LeaveForm, WorkerForm
+from .models import Worker, Leave, Department, jobGroup, SuperUser
+from .forms import LeaveForm, WorkerForm, SuperUserForm
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.db.models import Q
@@ -286,7 +286,6 @@ def Home(request):
     user = Worker.objects.filter(
         Q(username__icontains=q) |
         Q(department__icontains=q) |
-        Q(section__icontains=q) |
         Q(name__icontains=q) |
         Q(email__icontains=q)
     )
@@ -359,6 +358,90 @@ def updateUser(request):
     
     context = {'form': form}
     return render(request, 'app/addUser/update.html', context)
+
+
+def JobGroup(request):
+    if request.method == 'POST':
+        job_group = request.POST['job_group']
+        leaveDays = request.POST['leaveDays']
+        
+        if jobGroup.objects.filter(job_group=job_group).exists():
+            messages.error(request, 'Job group already added')
+            return redirect('jobgroup')
+        else:
+            jobs = jobGroup.objects.create(job_group=job_group, leaveDays=leaveDays)
+            jobs.save()
+            
+            messages.info(request, 'Job group added')
+            return redirect('jobgroup')
+    else:
+        return render(request, 'app/addUser/jobGroup.html')
+    return render(request, 'app/addUser/jobGroup.html')
+
+
+def addDepartment(request):
+    if request.method == 'POST':
+        department = request.POST['department']
+        
+        if Department.objects.filter(department=department).exists():
+            messages.info(request, 'Department already exist')
+            return redirect('add_department')
+        else:
+            departments = Department.objects.create(department=department)
+            department.save()
+            
+            messages.info(request, 'Department added')
+            return redirect('add_department')
+    else:
+        return render(request, 'app/addUser/department.html')
+    return render(request, 'app/addUser/department.html')
+
+
+def superUser(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        password1 = request.POST['password1']
+        
+        if password == password1:
+            if Worker.objects.filter(username=username).exists():
+                messages.error(request, 'Username exist')
+                return redirect('super_user')
+            elif Worker.objects.filter(email=email).exists():
+                messages.error(request, 'Email exist')
+                return redirect('super_user')
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                user.save()
+
+                client_details = SuperUser.objects.create(user=user, username=user.username, email=email)
+                client_details.save()
+                
+                messages.info(request, 'Super user added')
+                return redirect(reverse('updateSuperUser') + '?username=' + user.username)
+        else:
+            messages.error(request, 'Password dont match')
+            return redirect('super_user')
+    return render(request, 'app/addUser/superUser.html')
+
+def updateSuperUser(request):
+    username = request.GET.get('username')
+    user = User.objects.get(username=username)
+    superUser = user.superuser
+
+    if request.method == 'POST':
+        form = SuperUserForm(request.POST,request.FILES, instance=superUser)
+        if form.is_valid():
+            form.save()
+            messages.info(request, 'Information updated')
+            return redirect('super_user')
+    else:
+        form = SuperUserForm(instance=superUser)
+    
+    context = {'form': form}
+    return render(request, 'app/addUser/updateSuper.html', context)
+
 
 
 def updateUser1(request, pk):

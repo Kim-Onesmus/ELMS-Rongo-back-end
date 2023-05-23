@@ -10,9 +10,6 @@
     
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
-    <link rel="stylesheet" href="{% static 'css/admin1.css' %}">
-
-
 
 </head>
 
@@ -119,56 +116,102 @@
                     <div class="breadcrumb_content">
                         <ul>
                             <li><a href="{% url 'home' %}">home</a></li>
-                            <li>All Users</li>
+                            <li>Update user</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>         
     </div>
-    <div class="members">
-        <div style="width: 95%; margin: 0% auto;" class="welcome">
-            <div class="loopp1">                
-                <div class="loop1">
-                    <div class="data1">
-                        <table border="none" style=" border-collapse: collapse; width: 100%;">
-                            <tr style="background-color: dodgerblue; padding: 20px;">
-                                <th>
-                                    <b>User</b>
-                                </th>
-                                <th>
-                                    <b>PF No.</b>
-                                </th>
-                                <th >
-                                    <b>Department</b>
-                                </th>
-                                <th>
-                                    <b>Update</b>
-                                </th>
-                                <th>
-                                    <b>Delete</b>
-                                </th>
-                            </tr>
-                            <tbody>
-                                {% for data in all_users %}
-                                <tr style="margin: 0% auto;">
-                                    <td>{{data.name}}</td>
-                                    <td>{{data.username}}</td>
-                                    <td>{{data.department}}</td>
-                                    <td><button><a href="{% url 'update_user1' data.id %}">Update</a></button></td>
-                                    <td><button><a href="{% url 'delete_user' data.id %}">Delete</a></button></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
-                    </div>
+    <div class="main-wrapper">
+        <div class="preloader">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
+        </div>
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative">
+            <div style="box-shadow: 0 15px 30px rgba(8, 8, 8, 0.556);padding: 20px;" class="col-lg-5 col-md-7 bg-white">
+                <div class="p-3">
+                    <h2 class="mt-3 text-center text-dark">Update User</h2>
+                    <p class="text-center"></p>
+                    {% for data in messages %}
+                    <p style="color: red;text-align: center;">{{data}}</p>
+                    {% endfor %}
+                    <form class="mt-4" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">User</label>
+                                    {{form.user}}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">PF No.</label>
+                                    {{form.username}}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">Full Name</label>
+                                    {{form.name}}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">Email</label>
+                                    {{form.email}}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">Department</label>
+                                    {{form.department}}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">Job Group</label>
+                                    {{form.job_group}}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">Tittle</label>
+                                    {{form.tittle}}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">Image</label>
+                                    {{form.image}}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="col-lg-12 text-center">
+                                <button style="background-color: green;" type="submit" class="btn btn-block btn-dark">Update</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
+    <br><br>
+</body>
 <script src="{% static 'js/plugins.js' %}"></script>
+<script src="{% static 'js/serviceworker.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
+
+
