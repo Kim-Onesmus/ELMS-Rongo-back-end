@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import auth, User
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -394,3 +396,30 @@ def Search(request):
     
     context = {'user':user, 'users':users}
     return render(request, 'app/addUser/search.html', context)
+
+
+def myProfile(request):
+    worker = request.user.worker
+    
+    
+    context = {'worker':worker}
+    return render(request, 'app/profile.html', context)
+
+
+def UpdateProfile(request):
+    worker = request.user.worker
+    form = WorkerForm(instance=worker)
+    password_form = PasswordChangeForm(request.user)
+    if request.method == 'POST':
+        form = WorkerForm(request.POST,request.FILES, instance=worker)
+        password_form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid() and password_form.is_valid():
+            form.save()
+            password_form.save()
+            messages.info(request, 'Profile information updated')
+            return redirect('profile')
+    else:
+        form = WorkerForm(instance=worker)
+    
+    context = {'form': form, 'password_form':password_form}
+    return render(request, 'app/updateProfile.html', context)

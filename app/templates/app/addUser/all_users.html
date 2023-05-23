@@ -155,8 +155,8 @@
                                     <td>{{data.name}}</td>
                                     <td>{{data.username}}</td>
                                     <td>{{data.department}}</td>
-                                    <td><a style="background-color: green;" href="{% url 'update_user1' data.id %}">Update</a></td>
-                                    <td><a style="background-color: red;" href="{% url 'delete_user' data.id %}">Delete</a></td>
+                                    <td><button><a href="{% url 'update_user1' data.id %}">Update</a></button></td>
+                                    <td><button><a href="{% url 'delete_user' data.id %}">Delete</a></button></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

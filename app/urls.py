@@ -11,6 +11,8 @@ urlpatterns = [
     path('calendar', views.Calendar, name='calendar'),
     path('documentation', views.Documentation, name='documentation'),
     path('logout', views.Logout, name='logout'),
+    path('profile', views.myProfile, name='profile'),
+    path('updateProfile', views.UpdateProfile, name='updateProfile'),
     
     # <===========HR PAGES=================>
     path('all_leaves',views.allLeaves, name='all_leaves'),

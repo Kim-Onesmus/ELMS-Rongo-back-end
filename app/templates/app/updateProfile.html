@@ -1,0 +1,113 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/plugins.css' %}">
+    
+<!-- Main Style CSS -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+<div class="page-wrapper">
+    <section class="account">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="account-contents" style="background: url('/static/images/signin.jpeg'); background-size: cover;">
+                        <div class="row">
+                            <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="account-thumb">
+                                    <img style="width: 200px;height: 200px;border-radius: 50%;" src="{{request.user.worker.image.url}}">
+                                    <h2>{{user.username}}</h2>
+                                    <p>Annual Leave days remaining</p>
+                                    <p>{{reminder}} days</p>
+                                </div>
+                            </div> -->
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="account-content">
+                                    <h2 class="mt-3 text-center text-dark">Update Profile</h2>
+                                    <p class="text-center"></p>
+                                    {% for data in messages %}
+                                    <p style="color: red;text-align: center;">{{data}}</p>
+                                    {% endfor %}
+                                    <form class="mt-4" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            {{form.user.as_hidden}}
+                                            {{form.leave_days.as_hidden}}
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="text-dark" for="uname">PF No.</label>
+                                                    {{form.username}}
+                                                </div>
+                                            </div>
+                                            <br><br>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="text-dark" for="uname">Full Name</label>
+                                                    {{form.name}}
+                                                </div>
+                                            </div>
+                                            <br><br>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="text-dark" for="uname">Email</label>
+                                                    {{form.email}}
+                                                </div>
+                                            </div>
+                                            <br><br>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="text-dark" for="uname">Department</label>
+                                                    {{form.department}}
+                                                </div>
+                                            </div>
+                                            <br><br>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="text-dark" for="uname">Section</label>
+                                                    {{form.section}}
+                                                </div>
+                                            </div>
+                                            <br><br>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="text-dark" for="uname">Image</label>
+                                                    {{form.image}}
+                                                </div>
+                                            </div>
+                                            <br><br>
+                                            <div class="col-lg-12 text-center">
+                                                <button style="background-color: green;" type="submit" class="btn btn-block btn-dark">Update Profile</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="account-content">
+                                    <h2 class="mt-3 text-center text-dark">Change Password</h2>
+                                    <p class="text-center"></p>
+                                    {% for data in messages %}
+                                    <p style="color: red;text-align: center;">{{data}}</p>
+                                    {% endfor %}  
+                                    <form class="mt-4" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{password_form.as_p}}
+                                    </form>
+                                    <br>
+                                    <div class="col-lg-12 text-center">
+                                        <button style="background-color: green;" type="submit" class="btn btn-block btn-dark">Change Password</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer text-center text-muted">
+        All Rights Reserved. Designed and Developed by
+        <a href="https://wrappixel.com">..........</a>.
+    </footer>
+</div>
+{% endblock content %}

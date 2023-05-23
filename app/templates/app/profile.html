@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-7 align-self-center">
+                    <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">{{request.user.worker.name}}!</h3>
+                    <div class="d-flex align-items-center">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb m-0 p-0">
+                                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">My Profile</a>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="d-flex justify-content-center" class="row">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="box-shadow: 0 15px 30px rgba(8, 8, 8, 0.556);padding: 20px; margin: 0% auto;" class="table-responsive">
+                                {% for data in messages %}
+                                <p style="color: red;text-align: center;">{{data}}</p>
+                                {% endfor %}
+                                <br>
+                                <h5 class="text-dark mb-0 font-16 font-weight-medium">PF No.
+                                    <span class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">{{worker.username}}</span>
+                                </h5>
+                                <br>
+                                <h5 class="text-dark mb-0 font-16 font-weight-medium">Name:
+                                    <span class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">{{worker.name}}</span>
+                                </h5>
+                                <br>
+                                <h5 class="text-dark mb-0 font-16 font-weight-medium">Email.
+                                    <span class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">{{worker.email}}</span>
+                                </h5>
+                                <br>
+                                <h5 class="text-dark mb-0 font-16 font-weight-medium">Department
+                                    <span class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">{{worker.department}}</span>
+                                </h5>
+                                <br>
+                                <h5 class="text-dark mb-0 font-16 font-weight-medium">Section
+                                    <span class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">{{worker.section}}</span>
+                                </h5>
+                                <br>
+                                <h5 class="text-dark mb-0 font-16 font-weight-medium">Image <br>
+                                    <span class="border-top-0 text-center font-weight-medium text-muted px-2 py-4"><img style="width: 200px;height: 200px;" src="{{worker.image.url}}" alt=""></span>
+                                </h5>
+                                <br>
+                                <ul class="pagination float-right">
+                                    <li class="page-item"> To edit profile or Change Password click
+                                        <a style="color: dodgerblue;padding-right: 40px;" href="{% url 'updateProfile' %}" tabindex="-1"><u>here.</u></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer text-center text-muted">
+            All Rights Reserved. Designed and Developed by
+            <a href="https://wrappixel.com">..........</a>.
+        </footer>
+    </div>
+</div>
+{% endblock content %}
