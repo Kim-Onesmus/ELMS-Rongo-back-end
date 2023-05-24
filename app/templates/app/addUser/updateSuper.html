@@ -133,7 +133,7 @@
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative">
             <div style="box-shadow: 0 15px 30px rgba(8, 8, 8, 0.556);padding: 20px;" class="col-lg-5 col-md-7 bg-white">
                 <div class="p-3">
-                    <h2 class="mt-3 text-center text-dark">Update User</h2>
+                    <h2 class="mt-3 text-center text-dark">Update Super User</h2>
                     <p class="text-center"></p>
                     {% for data in messages %}
                     <p style="color: red;text-align: center;">{{data}}</p>
@@ -141,59 +141,18 @@
                     <form class="mt-4" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">User</label>
-                                    {{form.user}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">PF No.</label>
-                                    {{form.username}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">Full Name</label>
-                                    {{form.name}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">Email</label>
-                                    {{form.email}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">Department</label>
-                                    {{form.department}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">Job Group</label>
-                                    {{form.job_group}}
-                                </div>
-                            </div>
+                            {{form.user.as_hidden}}
+                            {{form.username.as_hidden}}
+                            {{form.name.as_hidden}}
+                            {{form.email.as_hidden}}
+                            {{form.department.as_hidden}}
+                            {{form.job_group.as_hidden}}
+                            {{form.image.as_hidden}}
                             <br><br>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="text-dark" for="uname">Tittle</label>
                                     {{form.tittle}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">Image</label>
-                                    {{form.image}}
                                 </div>
                             </div>
                             <br><br>

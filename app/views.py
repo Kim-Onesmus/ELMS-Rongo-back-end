@@ -9,8 +9,8 @@ from datetime import datetime, date
 from datetime import timedelta
 from django.contrib import messages
 from django.conf import settings
-from .models import Worker, Leave, Department, jobGroup, SuperUser
-from .forms import LeaveForm, WorkerForm, SuperUserForm
+from .models import Worker, Leave, Department, jobGroup
+from .forms import LeaveForm, WorkerForm
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.db.models import Q
@@ -388,7 +388,7 @@ def addDepartment(request):
             return redirect('add_department')
         else:
             departments = Department.objects.create(department=department)
-            department.save()
+            departments.save()
             
             messages.info(request, 'Department added')
             return redirect('add_department')
@@ -398,46 +398,22 @@ def addDepartment(request):
 
 
 def superUser(request):
+    all_users = Worker.objects.exclude(tittle='none').exclude(tittle=None)
+    
+    context = {'all_users':all_users}
+    return render(request, 'app/addUser/superUser.html', context)
+
+def UpdateSuperUser(request, pk):
+    worker = Worker.objects.get(id=pk)
+    form = WorkerForm(instance=worker)
     if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        password1 = request.POST['password1']
-        
-        if password == password1:
-            if Worker.objects.filter(username=username).exists():
-                messages.error(request, 'Username exist')
-                return redirect('super_user')
-            elif Worker.objects.filter(email=email).exists():
-                messages.error(request, 'Email exist')
-                return redirect('super_user')
-            else:
-                user = User.objects.create_user(username=username, email=email, password=password)
-                user.save()
-
-                client_details = SuperUser.objects.create(user=user, username=user.username, email=email)
-                client_details.save()
-                
-                messages.info(request, 'Super user added')
-                return redirect(reverse('updateSuperUser') + '?username=' + user.username)
-        else:
-            messages.error(request, 'Password dont match')
-            return redirect('super_user')
-    return render(request, 'app/addUser/superUser.html')
-
-def updateSuperUser(request):
-    username = request.GET.get('username')
-    user = User.objects.get(username=username)
-    superUser = user.superuser
-
-    if request.method == 'POST':
-        form = SuperUserForm(request.POST,request.FILES, instance=superUser)
+        form = WorkerForm(request.POST,request.FILES, instance=worker)
         if form.is_valid():
             form.save()
-            messages.info(request, 'Information updated')
+            messages.info(request, 'User information updated')
             return redirect('super_user')
     else:
-        form = SuperUserForm(instance=superUser)
+        form = WorkerForm(instance=worker)
     
     context = {'form': form}
     return render(request, 'app/addUser/updateSuper.html', context)
