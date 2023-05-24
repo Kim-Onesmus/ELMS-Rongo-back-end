@@ -31,6 +31,7 @@ urlpatterns = [
     # <===========Add User==================>
     path('home', views.Home, name='home'),
     path('add_user', views.addUser, name='add_user'),
+    path('add_category', views.addCategory, name='add_category'),
     path('add_department', views.addDepartment, name='add_department'),
     path('jobgroup', views.JobGroup, name='jobgroup'),
     path('update_user', views.updateUser, name='update_user'),

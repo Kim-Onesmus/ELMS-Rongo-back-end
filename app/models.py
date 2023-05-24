@@ -5,9 +5,55 @@ from django.contrib.auth.models import User
 
 
 DEPARTMENT = [
+    ('','----select department-----'),
+    ('School Of Education','School Of Education'),
+    ('School Of Arts, Social Science and Business','School Of Arts, Social Science and Business'),
+    ('School Of Science, Agriculture and Environmental Studies','School Of Science, Agriculture and Environmental Studies'),
+    ('School Of Information Communication and Media Studies','School Of Information Communication and Media Studies'),
+    ('Carriculum Instructions and Media','Carriculum Instructions and Media'),
+    ('Education Psychology and Science','Education Psychology and Science'),
+    ('Education Foundation and Management','Education Foundation and Management'),
+    ('Humanities and Social Sciences','Humanities and Social Sciences'),
+    ('Languages, Literature and Linguistics','Languages, Literature and Linguistics'),
+    ('Business, Tourism and Hospitality','Business, Tourism and Hospitality'),
+    ('Physical Biological and Health Sciences','Physical Biological and Health Sciences'),
+    ('Mathematics, Statistics and Computing','Mathematics, Statistics and Computing'),
+    ('Agriculture and Environmental Studies','Agriculture and Environmental Studies'),
+    ('Information Science, Health Records and Systems','Information Science, Health Records and Systems'),
+    ('Communication Media and Journalism','Communication Media and Journalism'),
+    ('Research and Extensions','Research and Extensions'),
+    ('Open, Distance and E-Learning','Open, Distance and E-Learning'),
+    ('Quality Assurance and ISO','Quality Assurance and ISO'),
+    ('Postgraduate Studies','Postgraduate Studies'),
+    ('Centre for Media, Democracy, Peace and Security','Centre for Media, Democracy, Peace and Security'),
+    ('Principle','Principle'),
+    ('Quality Assurance','Quality Assurance'),
+    ('Security','Security'),
+    ('Procurement','Procurement'),
+    ('Council Secretariat','Council Secretariat'),
+    ('Internal Audit','Internal Audit'),
+    ('Administrative Office (Office of the Vive-Chancellor)','Administrative Office (Office of the Vive-Chancellor)'),
     ('ICT','ICT'),
-    ('FINANCE','FINANCE'),
-    ('ADMISSIONS','ADMISSIONS'),
+    ('Legal Services','Legal Services'),
+    ('Registrar, Administration and Planning','Registrar, Administration and Planning'),
+    ('Human Resource','Human Resource'),
+    ('Central Service and Operation','Central Service and Operation'),
+    ('Hostels and Catering','Hostels and Catering'),
+    ('Planning','Planning'),
+    ('Development','Development'),
+    ('Finance','Finance'),
+    ('Finance Operations','Finance Operations'),
+    ('Finance Planning','Finance Planning'),
+    ('Student Finance','Student Finance'),
+    ('Registrar, Academic and Affairs','Registrar, Academic and Affairs'),
+    ('Admissions','Admissions'),
+    ('Examinations','Examinations'),
+    ('Senate Secretariat','Senate Secretariat'),
+    ('Dean of Students','Dean of Students'),
+    ('Music, Drama, Games and Sports','Music, Drama, Games and Sports'),
+    ('Student Welfare, Career Services and Alumni','Student Welfare, Career Services and Alumni'),
+    ('Library Services','Library Services'),
+    ('Medical Services','Medical Services'),
 ]
 TITTLE = [
     ('none','None'),
@@ -29,24 +75,19 @@ class jobGroup(models.Model):
     def __str__(self):
         return self.job_group
     
+class Category(models.Model):
+    category = models.CharField(max_length=200)
+    
+    def __str__(self):
+        return self.category
+    
 class Department(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     department = models.CharField(max_length=200)
     
     def __str__(self):
         return self.department
 
-# class SuperUser(models.Model):
-#     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-#     username = models.CharField(max_length=200, null=True)
-#     name = models.CharField(max_length=200, null=True)
-#     email = models.EmailField(max_length=200, null=True)
-#     department = models.OneToOneField(Department, null=True, on_delete=models.CASCADE)
-#     job_group = models.OneToOneField(jobGroup, null=True, on_delete=models.CASCADE)
-#     tittle = models.CharField(max_length=200, null=True, choices=TITTLE)
-#     image = models.ImageField(upload_to='media/', null=True, blank=True)
-    
-#     def __str__(self):
-#         return self.name
     
 
 class Worker(models.Model):
@@ -54,10 +95,10 @@ class Worker(models.Model):
     username = models.CharField(max_length=200, null=True)
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(max_length=200, null=True)
-    department = models.CharField(max_length=200, null=True, choices=DEPARTMENT)
-    job_group = models.OneToOneField(jobGroup, null=True, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
+    job_group = models.ForeignKey(jobGroup, null=True, on_delete=models.CASCADE)
     tittle = models.CharField(max_length=200, choices=TITTLE, default='none', null=True)
-    image = models.ImageField(upload_to='media/', null=True, blank=True)
+    image = models.ImageField(upload_to='media/', default='default.jpeg', null=True, blank=True)
     
     def __str__(self):
         return self.name

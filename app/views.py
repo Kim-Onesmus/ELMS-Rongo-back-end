@@ -6,11 +6,12 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from datetime import datetime, date
+from .models import DEPARTMENT
 from datetime import timedelta
 from django.contrib import messages
 from django.conf import settings
-from .models import Worker, Leave, Department, jobGroup
-from .forms import LeaveForm, WorkerForm
+from .models import Worker, Leave, Department, jobGroup, Category
+from .forms import LeaveForm, WorkerForm, DepartmentForm, CategoryForm
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.db.models import Q
@@ -48,7 +49,7 @@ def Homepage(request):
 
 def applyLeave(request):
     user = request.user.worker
-    leave_days = user.leave_days
+    leave_days = user.job_group.leaveDays
     reminder = leave_days
 
     if request.method == 'POST':
@@ -141,10 +142,10 @@ def Login(request):
                 
         if user is not None:
             auth.login(request, user)
-            if username.startswith('hr2023'):
+            if request.user.worker.tittle == 'hr':
                 return redirect('all_leaves')
         
-            elif username.startswith('hod2023'):
+            elif request.user.worker.tittle == 'hod':
                 return redirect('all_leaves1')
             
             elif username.startswith('admin2023'):
@@ -172,7 +173,8 @@ def Logout(request):
 # <=======================HR==================>
 
 def allLeaves(request):
-    leaves = Leave.objects.all()
+    hr_department = request.user.worker.department
+    leaves = Leave.objects.filter(user__department=hr_department)
 
     context = {'leaves':leaves}
     return render(request, 'app/hr/all_leaves.html', context)
@@ -228,7 +230,8 @@ def Rejected(request):
 # <=======================HOD==================>
 
 def allLeaves1(request):
-    leaves = Leave.objects.all()
+    hod_department = request.user.worker.department
+    leaves = Leave.objects.filter(user__department=hod_department)
 
     context = {'leaves':leaves}
     return render(request, 'app/hod/all_leaves1.html', context)
@@ -285,7 +288,6 @@ def Home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     user = Worker.objects.filter(
         Q(username__icontains=q) |
-        Q(department__icontains=q) |
         Q(name__icontains=q) |
         Q(email__icontains=q)
     )
@@ -296,16 +298,7 @@ def Home(request):
     worker = Worker.objects.all()
     workers = worker.count()
     
-    icts = Worker.objects.filter(department='ICT')
-    ict = icts.count()
-    
-    finaces = Worker.objects.filter(department='FINANCE')
-    finance = finaces.count()
-    
-    admissions = Worker.objects.filter(department='ADMISSIONS')
-    admission = admissions.count()
-    
-    context = {'workers':workers, 'ict':ict, 'finance':finance, 'admission':admission, 'all_users':all_users, 'user':user, 'users':users}
+    context = {'workers':workers, 'all_users':all_users, 'user':user, 'users':users, 'department':DEPARTMENT}
     return render(request, 'app/addUser/home.html', context)
 
 def allUsers(request):
@@ -380,22 +373,46 @@ def JobGroup(request):
 
 
 def addDepartment(request):
-    if request.method == 'POST':
-        department = request.POST['department']
-        
-        if Department.objects.filter(department=department).exists():
-            messages.info(request, 'Department already exist')
-            return redirect('add_department')
-        else:
-            departments = Department.objects.create(department=department)
-            departments.save()
-            
-            messages.info(request, 'Department added')
-            return redirect('add_department')
-    else:
-        return render(request, 'app/addUser/department.html')
-    return render(request, 'app/addUser/department.html')
+    department_form = DepartmentForm()
 
+    if request.method == 'POST':
+        department_form = DepartmentForm(request.POST)
+
+        if department_form.is_valid():
+            department_name = department_form.cleaned_data['department']
+            if Department.objects.filter(department=department_name).exists():
+                messages.error(request, 'Department already exists')
+            else:
+                department = department_form.save(commit=False)
+                department.save()
+                messages.info(request, 'Submitted')
+                return redirect('add_department')
+
+    context = {
+        'department_form': department_form
+    }
+    return render(request, 'app/addUser/department.html', context)
+
+def addCategory(request):
+    category_form = CategoryForm()
+
+    if request.method == 'POST':
+        category_form = CategoryForm(request.POST)
+
+        if category_form.is_valid():
+            category_name = category_form.cleaned_data['category']
+            if Category.objects.filter(category=category_name).exists():
+                messages.error(request, 'Category already exists')
+            else:
+                category = category_form.save()
+                messages.success(request, 'Category added')
+                return redirect('add_category')
+
+
+    context = {
+        'category_form': category_form,
+    }
+    return render(request, 'app/addUser/category.html', context)
 
 def superUser(request):
     all_users = Worker.objects.exclude(tittle='none').exclude(tittle=None)
