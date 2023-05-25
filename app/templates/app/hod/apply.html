@@ -1,0 +1,89 @@
+{% extends 'hod1.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/plugins.css' %}">
+    
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+        <div class="page-wrapper">
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-7 align-self-center">
+                        <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Apply Leave</h4>
+                    </div>
+                </div>
+            </div>
+            <section class="account">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="account-contents" style="background: url('/static/images/signin.jpeg'); background-size: cover;">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                        <div class="account-thumb">
+                                            <img style="width: 200px;height: 200px;border-radius: 50%;" src="{{request.user.worker.image.url}}">
+                                            <h2>{{user.username}}</h2>
+                                            <p>Annual Leave days remaining</p>
+                                            <p>{{hod_reminder}} days</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                        <div class="account-content">
+                                            <h3>Apply Leave</h3>
+                                            <form action="" method="POST">
+                                                {% csrf_token %}
+                                                {% for text in messages %}
+                                                <p style="color: red;">{{text}}</p>
+                                                {% endfor %}
+                                                <div class="single-acc-field">
+                                                    <label for="email">Leave Type</label>
+                                                    <select name="leave_type" id="leave-type" class="form-control" title="Please select a Leave Type" required>
+                                                        <option></option>
+                                                        <option value="Annual leave">Annual Leave</option>
+                                                        <option value="Compassionate leave">Compassionate Leave</option>
+                                                        <option value="Dependant leave">Dependant Leave</option>
+                                                        <option value="Public Holiday">Public Holiday</option>
+                                                        <option value="Sick leave">Sick Leave</option>
+                                                        <option value="Casual leave">Casual Leave</option>
+                                                        <option value="Study leave">Study Leave</option>
+                                                        <option value="Unpaid leave">Unpaid Leave</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </div>
+                                                <div class="single-acc-field">
+                                                    <label for="email">Start Date</label>
+                                                    <input type="date" name="start_date" required>
+                                                </div>
+                                                <div class="single-acc-field">
+                                                    <label for="email">End Date</label>
+                                                    <input type="date" name="end_date" required>
+                                                </div>
+                                                <!-- <div class="single-acc-field">
+                                                    <label for="email">Who to take your duties</label>
+                                                    <input type="number" name="number" placeholder="Enter his/her PF NO." required>
+                                                </div> -->
+                                                <div class="single-acc-field">
+                                                    <label for="password">Comment</label>
+                                                    <textarea name="comment" id="" cols="30" rows="4"></textarea>
+                                                </div>
+                                                <div class="single-acc-field">
+                                                    <button type="submit">Apply Leave</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <br><br>
+    <footer class="footer text-center">
+        All Rights Reserved by Adminmart. Designed and Developed by <a
+            href="https://wrappixel.com">WrapPixel</a>.
+    </footer>
+{% endblock content %}

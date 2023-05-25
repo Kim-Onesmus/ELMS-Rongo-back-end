@@ -98,6 +98,7 @@ class Worker(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     job_group = models.ForeignKey(jobGroup, null=True, on_delete=models.CASCADE)
     tittle = models.CharField(max_length=200, choices=TITTLE, default='none', null=True)
+    reporting_to = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='media/', default='default.jpeg', null=True, blank=True)
     
     def __str__(self):

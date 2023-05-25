@@ -10,9 +10,23 @@ class LeaveForm(forms.ModelForm):
         fields = '__all__'
         
 class WorkerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['reporting_to'].queryset = Worker.objects.exclude(tittle='none')
     class Meta:
         model = Worker
         fields = '__all__'
+    widgets = {
+        'username': forms.TextInput(attrs={'class': 'form-control'}),
+        'name': forms.TextInput(attrs={'class': 'form-control'}),
+        'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        'department': forms.Select(attrs={'class': 'form-control'}),
+        'job_group': forms.Select(attrs={'class': 'form-control'}),
+        'tittle': forms.Select(attrs={'class': 'form-control'}),
+        'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        'reporting_to': forms.Select(attrs={'class': 'form-control'}),
+        # Add more fields here with their respective widget styles
+    }
         
         
 class DepartmentForm(forms.ModelForm):

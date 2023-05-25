@@ -33,14 +33,7 @@
                             <p>Hello {{user.username}}</p>
                         </div>
                         <br>
-                        <div class="search_container">
-                            <form action="" method="GET">
-                                <div class="search_box">
-                                    <input type="text" name="q" placeholder="Search......" required>
-                                    <button type="submit">Search</button> 
-                                </div>
-                            </form>
-                        </div> 
+
                         
                         <div id="menu" class="text-left ">
                             <ul class="offcanvas_main_menu">
@@ -76,12 +69,7 @@
                         <div class="col-lg-9 col-md-6">
                             <div class="middel_right">
                                 <div class="search_container">
-                                   <form action="" method="GET">
-                                        <div class="search_box">
-                                            <input name="q" placeholder="Search product..." type="text" required>
-                                            <button type="submit">Search</button> 
-                                        </div>
-                                    </form>
+                                    <img style="width: 300px;height: 70px; padding: 0%;" src="{% static 'assets/images/logo1.png' %}" alt="">
                                 </div> 
                             </div>
                         </div>
@@ -202,6 +190,18 @@
                                 <div class="form-group">
                                     <label class="text-dark" for="uname">Tittle</label>
                                     {{form.tittle}}
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">Report To</label>
+                                    <select name="reporting_to" id="id_reporting_to" class="form-control">
+                                        <option value="">---------</option>
+                                        {% for worker in workers %}
+                                        <option value="{{ worker.pk }}">{{ worker.username }}: {{worker.name}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <br><br>

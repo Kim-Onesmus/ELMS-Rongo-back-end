@@ -33,14 +33,6 @@
                             <p>Hello {{user.username}}</p>
                         </div>
                         <br>
-                        <div class="search_container">
-                            <form action="" method="GET">
-                                <div class="search_box">
-                                    <input type="text" name="q" placeholder="Search......" required>
-                                    <button type="submit">Search</button> 
-                                </div>
-                            </form>
-                        </div> 
                         
                         <div id="menu" class="text-left ">
                             <ul class="offcanvas_main_menu">
@@ -199,6 +191,9 @@
                                     <b>Department</b>
                                 </th>
                                 <th>
+                                    <b>Reporting To</b>
+                                </th>
+                                <th>
                                     <b>Update</b>
                                 </th>
                                 <th>
@@ -211,6 +206,7 @@
                                     <td>{{data.name}}</td>
                                     <td>{{data.username}}</td>
                                     <td>{{data.department}}</td>
+                                    <td>{{data.reporting_to}}</td>
                                     <td><button><a href="{% url 'update_user1' data.id %}">Update</a></button></td>
                                     <td><button><a href="{% url 'delete_user' data.id %}">Delete</a></button></td>
                                 </tr>

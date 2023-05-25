@@ -27,6 +27,7 @@ urlpatterns = [
     path('pending1', views.Pending1, name='pending1'),
     path('accepted1', views.Accepted1, name='accepted1'),
     path('rejected1', views.Rejected1, name='rejected1'),
+    path('hod_apply', views.hodApply, name='hod_apply'),
     
     # <===========Add User==================>
     path('home', views.Home, name='home'),

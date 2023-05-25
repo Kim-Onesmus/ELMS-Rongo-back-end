@@ -26,17 +26,17 @@
                             {% for data in leaves %}
                             {% if data.leave_status == 'Accepted' %}
                             {% if data.leave_status1 == 'Accepted' %}
-                            <form style="padding: 40px;" id="download" class="text-dark">
-                                <div style="margin: 0% auto;">
+                            <form style="padding: 40px; color: black;" id="download" class="text-dark">
+                                <div style="margin: 0% auto; color: black;">
                                     <center><img style="width: 550px;height: 150px;" src="{% static 'assets/images/logo1.png' %}" alt="rongo"></center>
                                 </div><br>
-                                <p style="text-align: center;font-weight: bold;font-size: 20px;">Leave Approval Form</p>
-                                <p style="text-align: left ;font-size: 15px;">From:  Human Resourse</p>
+                                <p style="text-align: center;font-weight: bold;font-size: 20px;color: black;">Leave Approval Form</p>
+                                <p style="text-align: left ;font-size: 15px;color: black;">From:  Human Resourse</p>
 
                                 <div>
                                 <label for="name"><b>Dear:</b></label>  {{data.user.name}}<br><br>
                                 <label for=""><b>PF.No:</b></label>  {{data.user.user.username}}<br>
-                                <body>
+                                <div style="color: black;">
                                     <p>We have received your leave request from :<b>{{data.start_date}}</b>, to <b>{{data.end_date}}</b> totalling to <b>{{ data.end_date|timeuntil:data.start_date }}</b></p>
                                     <p>As of <b>{{data.start_date}}</b>, your leave request is approved.</p>
                                     <p>Per your request, this time off will be marked as <b>{{data.leave_type}}</b>.</p>

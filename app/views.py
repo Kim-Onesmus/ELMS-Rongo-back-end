@@ -79,7 +79,8 @@ def applyLeave(request):
         duration = (datetime.strptime(end_date, '%Y-%m-%d').date() - datetime.strptime(start_date, '%Y-%m-%d').date()).days
         if duration <= leave_days:
             leave_days -= duration
-            user.leave_days = leave_days
+            user.job_group.leaveDays = leave_days
+            user.job_group.save()
             user.save()
         
             leave_details = Leave.objects.create(user=user, leave_type=leave_type, start_date=start_date,end_date=end_date, comment=comment)
@@ -142,14 +143,15 @@ def Login(request):
                 
         if user is not None:
             auth.login(request, user)
-            if request.user.worker.tittle == 'hr':
+            if username.startswith('Admin'):
+                return redirect('home')
+            
+            elif request.user.worker.tittle == 'hr':
                 return redirect('all_leaves')
         
             elif request.user.worker.tittle == 'hod':
                 return redirect('all_leaves1')
             
-            elif username.startswith('admin2023'):
-                return redirect('home')
             else:
                 return redirect('homepage')
         else:
@@ -209,19 +211,22 @@ def Action(request, pk):
     return render(request, 'app/hr/action.html', context)
 
 def Pending(request):
-    pending = Leave.objects.filter(leave_status1='Pending')
+    hr_department = request.user.worker.department
+    pending = Leave.objects.filter(user__department=hr_department, leave_status1='Pending')
     
     context = {'pending':pending}
     return render(request, 'app/hr/pending.html', context)
 
 def Accepted(request):
-    accepted = Leave.objects.filter(leave_status1='Accepted')
+    hr_department = request.user.worker.department
+    accepted = Leave.objects.filter(user__department=hr_department, leave_status1='Accepted')
     
     context = {'accepted':accepted}
     return render(request, 'app/hr/accepted.html', context)
 
 def Rejected(request):
-    rejected = Leave.objects.filter(leave_status1='Rejected')
+    hr_department = request.user.worker.department
+    rejected = Leave.objects.filter(user__department=hr_department, leave_status1='Rejected')
     
     context = {'rejected':rejected}
     return render(request, 'app/hr/rejected.html', context)
@@ -233,6 +238,7 @@ def allLeaves1(request):
     hod_department = request.user.worker.department
     leaves = Leave.objects.filter(user__department=hod_department)
 
+
     context = {'leaves':leaves}
     return render(request, 'app/hod/all_leaves1.html', context)
 
@@ -243,21 +249,21 @@ def Action1(request, pk):
         form = LeaveForm(request.POST, instance=leaves)
         if form.is_valid():
             form.save()
-            subject = 'Leave Status'
-            context = {
-                'user': leaves.user,
-                'leave_type': leaves.leave_type,
-                'start_date': leaves.start_date,
-                'end_date': leaves.end_date,
-                'leave_status':leaves.leave_status,
-            }
+            # subject = 'Leave Status'
+            # context = {
+            #     'user': leaves.user,
+            #     'leave_type': leaves.leave_type,
+            #     'start_date': leaves.start_date,
+            #     'end_date': leaves.end_date,
+            #     'leave_status':leaves.leave_status,
+            # }
             
-            html_message = render_to_string('app/email/hod.html', context)
-            plain_message = strip_tags(html_message)
+            # html_message = render_to_string('app/email/hod.html', context)
+            # plain_message = strip_tags(html_message)
             
-            email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [leaves.user.email])
-            email.attach_alternative(html_message, "text/html")
-            email.send()
+            # email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [leaves.user.email])
+            # email.attach_alternative(html_message, "text/html")
+            # email.send()
             
             return redirect('all_leaves1')
         
@@ -265,22 +271,92 @@ def Action1(request, pk):
     return render(request, 'app/hod/action1.html', context)
 
 def Pending1(request):
-    pending = Leave.objects.filter(leave_status='Pending')
+    hod_department = request.user.worker.department
+    pending = Leave.objects.filter(user__department=hod_department, leave_status='Pending')
     
     context = {'pending':pending}
     return render(request, 'app/hod/pending1.html', context)
 
 def Accepted1(request):
-    accepted = Leave.objects.filter(leave_status='Accepted')
+    hod_department = request.user.worker.department
+    accepted = Leave.objects.filter(user__department=hod_department, leave_status='Accepted')
     
     context = {'accepted':accepted}
     return render(request, 'app/hod/accepted1.html', context)
 
 def Rejected1(request):
-    rejected = Leave.objects.filter(leave_status='Rejected')
+    hod_department = request.user.worker.department
+    rejected = Leave.objects.filter(user__department=hod_department, leave_status='Rejected')
     
     context = {'rejected':rejected}
     return render(request, 'app/hod/rejected1.html', context)
+
+
+def hodApply(request):
+    user = request.user.worker
+    leave_days = user.job_group.leaveDays
+    reminder = leave_days
+
+    if request.method == 'POST':
+        user = request.user.worker
+        leave_type = request.POST['leave_type']
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        comment = request.POST['comment']
+        
+        today = datetime.now().date()
+        start = datetime.strptime(start_date, '%Y-%m-%d').date()
+        end = datetime.strptime(end_date, '%Y-%m-%d').date()
+        
+        if start <= today:
+            messages.error(request, 'You cannot apply leave for past dates')
+            return redirect('hod_apply')
+        if end <= today:
+            messages.error(request, 'You cannot apply leave for past dates')
+            return redirect('hod_apply')
+        if start == end:
+            messages.error(request, 'Start date and end date cannot be the same')
+            return redirect('hod_apply')
+        if start > end:
+            messages.error(request, 'Start date cannot be greater than end date')
+            return redirect('hod_apply')
+        
+        duration = (datetime.strptime(end_date, '%Y-%m-%d').date() - datetime.strptime(start_date, '%Y-%m-%d').date()).days
+        if duration <= leave_days:
+            leave_days -= duration
+            user.job_group.leaveDays = leave_days
+            user.job_group.save()
+            user.save()
+            
+            reminder = leave_days
+        
+            leave_details = Leave.objects.create(user=user, leave_type=leave_type, start_date=start_date,end_date=end_date, comment=comment)
+            leave_details.save()
+            
+            subject = 'Leave Application Received - Acknowledgement'
+            context = {
+                'user': user,
+                'leave_type': leave_type,
+                'start_date': start_date,
+                'end_date': end_date,
+            }
+            html_message = render_to_string('app/email/apply.html', context)
+            plain_message = strip_tags(html_message)
+            
+            email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [user.email])
+            email.attach_alternative(html_message, "text/html")
+            email.send()
+            
+            messages.info(request, 'Leave application submited successfully')
+            return redirect('apply_leave')
+        else:
+            messages.error(request, 'Not enough leave days available')
+            return redirect('apply_leave')
+    
+    
+    context = {'hod_reminder':reminder}
+    return render(request, 'app/hod/apply.html', context)
+
 
 # <===============Add User ===================>
 
@@ -350,7 +426,7 @@ def updateUser(request):
     else:
         form = WorkerForm(instance=worker)
     
-    context = {'form': form, 'categories': categories}
+    context = {'form': form, 'categories': categories,}
     return render(request, 'app/addUser/update.html', context)
 
 
@@ -442,6 +518,9 @@ def updateUser1(request, pk):
     categories = Category.objects.all()
     worker = Worker.objects.get(id=pk)
     form = WorkerForm(instance=worker)
+    
+    workers = Worker.objects.exclude(tittle='none').values('pk', 'username','name')
+    
     if request.method == 'POST':
         form = WorkerForm(request.POST,request.FILES, instance=worker)
         if form.is_valid():
@@ -451,7 +530,7 @@ def updateUser1(request, pk):
     else:
         form = WorkerForm(instance=worker)
     
-    context = {'form': form, 'categories':categories}
+    context = {'form': form, 'categories':categories,'workers': workers}
     return render(request, 'app/addUser/update.html', context)
 
 def deleteUser(request, pk):
