@@ -6,7 +6,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from datetime import datetime, date
-from .models import DEPARTMENT
+from django.http import JsonResponse
 from datetime import timedelta
 from django.contrib import messages
 from django.conf import settings
@@ -298,7 +298,7 @@ def Home(request):
     worker = Worker.objects.all()
     workers = worker.count()
     
-    context = {'workers':workers, 'all_users':all_users, 'user':user, 'users':users, 'department':DEPARTMENT}
+    context = {'workers':workers, 'all_users':all_users, 'user':user, 'users':users}
     return render(request, 'app/addUser/home.html', context)
 
 def allUsers(request):
@@ -336,6 +336,7 @@ def addUser(request):
     return render(request, 'app/addUser/add.html')
 
 def updateUser(request):
+    categories = Category.objects.all()
     username = request.GET.get('username')
     user = User.objects.get(username=username)
     worker = user.worker
@@ -349,7 +350,7 @@ def updateUser(request):
     else:
         form = WorkerForm(instance=worker)
     
-    context = {'form': form}
+    context = {'form': form, 'categories': categories}
     return render(request, 'app/addUser/update.html', context)
 
 
@@ -438,6 +439,7 @@ def UpdateSuperUser(request, pk):
 
 
 def updateUser1(request, pk):
+    categories = Category.objects.all()
     worker = Worker.objects.get(id=pk)
     form = WorkerForm(instance=worker)
     if request.method == 'POST':
@@ -449,7 +451,7 @@ def updateUser1(request, pk):
     else:
         form = WorkerForm(instance=worker)
     
-    context = {'form': form}
+    context = {'form': form, 'categories':categories}
     return render(request, 'app/addUser/update.html', context)
 
 def deleteUser(request, pk):
@@ -463,8 +465,6 @@ def Search(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     user = Worker.objects.filter(
         Q(username__icontains=q) |
-        Q(department__icontains=q) |
-        Q(section__icontains=q) |
         Q(name__icontains=q) |
         Q(email__icontains=q)
     )
