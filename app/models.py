@@ -111,6 +111,7 @@ class Leave(models.Model):
     start_date = models.DateField(max_length=200)
     end_date = models.DateField(max_length=200)
     comment = models.CharField(max_length=200)
+    duties = models.CharField(max_length=200)
     leave_status = models.CharField(max_length=200, choices=STATUS, default='Pending')
     leave_status1 = models.CharField(max_length=200, choices=STATUS, default='Pending')
     

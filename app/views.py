@@ -57,6 +57,7 @@ def applyLeave(request):
         leave_type = request.POST['leave_type']
         start_date = request.POST['start_date']
         end_date = request.POST['end_date']
+        duties = request.POST['number']
         comment = request.POST['comment']
         
         today = datetime.now().date()
@@ -76,6 +77,11 @@ def applyLeave(request):
             messages.error(request, 'Start date cannot be greater than end date')
             return redirect('apply_leave')
         
+        worker = Worker.objects.filter(user__username=duties).first()
+        if not worker:
+            messages.error(request, 'Invalid PF number')
+            return redirect('apply_leave')
+        
         duration = (datetime.strptime(end_date, '%Y-%m-%d').date() - datetime.strptime(start_date, '%Y-%m-%d').date()).days
         if duration <= leave_days:
             leave_days -= duration
@@ -83,7 +89,7 @@ def applyLeave(request):
             user.job_group.save()
             user.save()
         
-            leave_details = Leave.objects.create(user=user, leave_type=leave_type, start_date=start_date,end_date=end_date, comment=comment)
+            leave_details = Leave.objects.create(user=user, leave_type=leave_type, start_date=start_date,end_date=end_date, duties=duties, comment=comment)
             leave_details.save()
             
             subject = 'Leave Application Received - Acknowledgement'
@@ -175,8 +181,7 @@ def Logout(request):
 # <=======================HR==================>
 
 def allLeaves(request):
-    hr_department = request.user.worker.department
-    leaves = Leave.objects.filter(user__department=hr_department)
+    leaves = Leave.objects.all()
 
     context = {'leaves':leaves}
     return render(request, 'app/hr/all_leaves.html', context)
@@ -211,15 +216,13 @@ def Action(request, pk):
     return render(request, 'app/hr/action.html', context)
 
 def Pending(request):
-    hr_department = request.user.worker.department
-    pending = Leave.objects.filter(user__department=hr_department, leave_status1='Pending')
+    pending = Leave.objects.filter(leave_status1='Pending')
     
     context = {'pending':pending}
     return render(request, 'app/hr/pending.html', context)
 
 def Accepted(request):
-    hr_department = request.user.worker.department
-    accepted = Leave.objects.filter(user__department=hr_department, leave_status1='Accepted')
+    accepted = Leave.objects.filter(leave_status1='Accepted')
     
     context = {'accepted':accepted}
     return render(request, 'app/hr/accepted.html', context)
@@ -249,24 +252,24 @@ def Action1(request, pk):
         form = LeaveForm(request.POST, instance=leaves)
         if form.is_valid():
             form.save()
-            # subject = 'Leave Status'
-            # context = {
-            #     'user': leaves.user,
-            #     'leave_type': leaves.leave_type,
-            #     'start_date': leaves.start_date,
-            #     'end_date': leaves.end_date,
-            #     'leave_status':leaves.leave_status,
-            # }
+            subject = 'Leave Status'
+            context = {
+                'user': leaves.user,
+                'leave_type': leaves.leave_type,
+                'start_date': leaves.start_date,
+                'end_date': leaves.end_date,
+                'leave_status':leaves.leave_status,
+            }
             
-            # html_message = render_to_string('app/email/hod.html', context)
-            # plain_message = strip_tags(html_message)
+            html_message = render_to_string('app/email/hod.html', context)
+            plain_message = strip_tags(html_message)
             
-            # email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [leaves.user.email])
-            # email.attach_alternative(html_message, "text/html")
-            # email.send()
+            email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [leaves.user.email])
+            email.attach_alternative(html_message, "text/html")
+            email.send()
             
             return redirect('all_leaves1')
-        
+
     context = {'form':form}
     return render(request, 'app/hod/action1.html', context)
 

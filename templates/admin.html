@@ -45,6 +45,18 @@
                 </div>
                 <div class="navbar-collapse collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i style="color: black;font-style: normal;background-color: white;border-radius: 20px;padding: 10px;">My Leave</i>
+                            </a>
+                            <div style="color: black;" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'apply_leave' %}">Apply Leave</a>
+                                <a class="dropdown-item" href="{% url 'download' %}">Download Leave Form</a>
+                                <a class="dropdown-item" href="{% url 'history' %}">Leave History</a>
+                                <a class="dropdown-item" href="{% url 'documentation' %}">Documentation</a>
+                            </div>
+                        </li>
                     </ul>
                     <ul class="navbar-nav float-right">
                         <li class="nav-item d-none d-md-block">

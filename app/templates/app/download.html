@@ -23,9 +23,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            {% for data in leaves %}
+                            {% for data in leaves reversed %}
                             {% if data.leave_status == 'Accepted' %}
                             {% if data.leave_status1 == 'Accepted' %}
+                            {% if forloop.first %}
                             <form style="padding: 40px; color: black;" id="download" class="text-dark">
                                 <div style="margin: 0% auto; color: black;">
                                     <center><img style="width: 550px;height: 150px;" src="{% static 'assets/images/logo1.png' %}" alt="rongo"></center>
@@ -48,6 +49,7 @@
                                 </div>
                             </form>
                             <input type="button" class="btn btn-primary" onclick="GeneratePdf();" value="Download">
+                            {% endif %}
                             {% endif %}
                             {% endif %}
                             {% endfor %}
