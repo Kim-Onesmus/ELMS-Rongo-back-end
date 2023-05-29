@@ -16,7 +16,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="zero_config" class="table table-striped table-bordered no-wrap">
-                                    <thead>
+                                    <thead style="background-color: dodgerblue;">
                                         <tr style="color: black;">
                                             <th>Employee</th>
                                             <th>Department</th>
@@ -45,10 +45,10 @@
                                             </td>
                                             <td>{{data.user.department}}</td>
                                             <td>{{data.leave_type}}</td>
-                                            <td>{{data.start_date}}</a></td>
-                                            <td>{{data.end_date}}</a></td>
+                                            <td>{{data.start_date}}</td>
+                                            <td>{{data.end_date}}</td>
                                             <td>{{data.user.leave_days}}</td>
-                                            <td style="color: dodgerblue;">{{data.leave_status1}}</a></td>
+                                            <td><span style="color: green;">{{data.leave_status1}}</span><br>{{data.comment1}}</a></td>
                                             <td><button style="background-color: darkcyan;"><a style="color: black;" href="{% url 'action' data.id %}">Action</a></button></td>
                                             <td>{{data.comment}}</td>
                                         </tr>

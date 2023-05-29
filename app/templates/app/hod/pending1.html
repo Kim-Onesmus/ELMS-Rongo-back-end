@@ -16,7 +16,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="zero_config" class="table table-striped table-bordered no-wrap">
-                                    <thead>
+                                    <thead style="background-color: dodgerblue;">
                                         <tr style="color: black;">
                                             <th>Employee</th>
                                             <th>Department</th>
@@ -24,9 +24,9 @@
                                             <th>Start Date</th>
                                             <th>End Date</th>
                                             <th>Leave days remaining</th>
-                                            <th>Leave Status</th>
+                                            <th>Leave Status/Comment</th>
                                             <th>Action</th>
-                                            <th>Comment</th>
+                                            <th>UserComment</th>
                                         </tr>
                                     </thead>
                                     <tbody style="color: black;">
@@ -35,14 +35,15 @@
                                             <td>
                                                 <img src="{{data.user.image.url}}" alt="user" class="rounded-circle" width="45"
                                                 height="45">
+                                                <!-- {{data.user.username}} -->
                                                 <p>{{data.user}}</p>
                                             </td>
                                             <td>{{data.user.department}}</td>
                                             <td>{{data.leave_type}}</td>
                                             <td>{{data.start_date}}</a></td>
                                             <td>{{data.end_date}}</a></td>
-                                            <td>{{data.user.leave_days}}</td>
-                                            <td style="color: dodgerblue;">{{data.leave_status}}</a></td>
+                                            <td>{{data.user.job_group.leaveDays}}</td>
+                                            <td><span style="color: green;">{{data.leave_status}}</span><br>{{data.comment1}}</td>
                                             <td><button style="background-color: darkcyan;"><a style="color: black;" href="{% url 'action1' data.id %}">Action</a></button></td>
                                             <td>{{data.comment}}</td>
                                         </tr>

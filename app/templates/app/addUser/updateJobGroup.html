@@ -10,7 +10,6 @@
     
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 
@@ -33,7 +32,6 @@
                             <p>Hello {{user.username}}</p>
                         </div>
                         <br>
-
                         
                         <div id="menu" class="text-left ">
                             <ul class="offcanvas_main_menu">
@@ -94,7 +92,7 @@
                                         <li><a href="{% url 'add_category' %}">Add Category</a></li>
                                         <li><a href="{% url 'add_department' %}">Add Department</a></li>
                                         <li><a href="{% url 'logout' %}">LogOut</a></li>
-                                    </ul> 
+                                    </ul>  
                                 </nav> 
                             </div>
                         </div>
@@ -113,7 +111,7 @@
                     <div class="breadcrumb_content">
                         <ul>
                             <li><a href="{% url 'home' %}">home</a></li>
-                            <li>Update user</li>
+                            <li>Update Job Group</li>
                         </ul>
                     </div>
                 </div>
@@ -130,92 +128,29 @@
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative">
             <div style="box-shadow: 0 15px 30px rgba(8, 8, 8, 0.556);padding: 20px;" class="col-lg-5 col-md-7 bg-white">
                 <div class="p-3">
-                    <h2 class="mt-3 text-center text-dark">Update User</h2>
-                    <p class="text-center"></p>
+                    <h2 class="mt-3 text-center text-dark">Update Job Group</h2>
                     {% for data in messages %}
                     <p style="color: red;text-align: center;">{{data}}</p>
                     {% endfor %}
-                    <form class="mt-4" method="post" enctype="multipart/form-data">
+                    <form class="mt-4" method="post">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="text-dark" for="uname">User</label>
-                                    {{form.user}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">PF No.</label>
-                                    {{form.username}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">Full Name</label>
-                                    {{form.name}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">Email</label>
-                                    {{form.email}}
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                  <label class="text-dark" for="uname">Department</label>
-                                  <select name="department" id="id_department" class="form-control">
-                                    {% for category in categories %}
-                                    <optgroup label="{{ category.category }}">
-                                      {% for department in category.department_set.all %}
-                                      <option value="{{ department.id }}">{{ department.department }}</option>
-                                      {% endfor %}
-                                    </optgroup>
-                                    {% endfor %}
-                                  </select>
-                                </div>
-                            </div>
-                            <br><br><br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
                                     <label class="text-dark" for="uname">Job Group</label>
-                                    {{form.job_group}}
+                                    {{category_form.job_group}}
                                 </div>
                             </div>
-                            <br><br>
+                            <br>
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="text-dark" for="uname">Tittle</label>
-                                    {{form.tittle}}
+                                    <label class="text-dark" for="uname">Leave days</label>
+                                    {{category_form.leaveDays}}
                                 </div>
                             </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">Report To</label>
-                                    <select name="reporting_to" id="id_reporting_to" class="form-control">
-                                        <option value="">---------</option>
-                                        {% for worker in workers %}
-                                        <option value="{{ worker.pk }}">{{ worker.username }}: {{worker.name}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="text-dark" for="uname">Image</label>
-                                    {{form.image}}
-                                </div>
-                            </div>
-                            <br><br>
+                            <br> <br><br><br>
                             <div class="col-lg-12 text-center">
-                                <button style="background-color: green;" type="submit" class="btn btn-block btn-dark">Update User</button>
+                                <button style="background-color: green;" type="submit" class="btn btn-block btn-dark">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -226,7 +161,6 @@
     <br><br>
 </body>
 <script src="{% static 'js/plugins.js' %}"></script>
-<script src="{% static 'js/serviceworker.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

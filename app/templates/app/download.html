@@ -27,31 +27,53 @@
                             {% if data.leave_status == 'Accepted' %}
                             {% if data.leave_status1 == 'Accepted' %}
                             {% if forloop.first %}
-                            <form style="padding: 40px; color: black;" id="download" class="text-dark">
+                            <form style="padding: 40px; color: black;background-color: white;" id="download" class="text-dark">
                                 <div style="margin: 0% auto; color: black;">
                                     <center><img style="width: 550px;height: 150px;" src="{% static 'assets/images/logo1.png' %}" alt="rongo"></center>
                                 </div><br>
-                                <p style="text-align: center;font-weight: bold;font-size: 20px;color: black;">Leave Approval Form</p>
-                                <p style="text-align: left ;font-size: 15px;color: black;">From:  Human Resourse</p>
+                                <p style="text-align: center;font-weight: bold;font-size: 20px;color: black;">HUMAN RESOURCE SECTION</p><span style="color: black;"><hr></span>
+                                <p style="text-align: left ;font-size: 15px;color: black;"><b>REF</b>:  RU/AFP/HR/ 
+                                    <span style="float: right;"><b>Date</b>{{data.start_date}}</span></p>
 
                                 <div>
-                                <label for="name"><b>Dear:</b></label>  {{data.user.name}}<br><br>
-                                <label for=""><b>PF.No:</b></label>  {{data.user.user.username}}<br>
+                                <label for="name">{{data.user.name}}</label><br>
+                                <label for="name">Rongo University</label><br>
+                                <label for="name">P.O.BOX 103-40404</label><br>
+                                <label for="name"><b><u>RONGO</u></b></label><br><br>
+                                <label for="name">Email: {{data.user.email}}</label><br><br>
+                                <label for="name">Dear {{data.user.name}}</label><br><br>
+
+
+
+                                <label for=""><b><u>RE: APPLICATION FOR LEAVE</u></b></label><br>
                                 <div style="color: black;">
-                                    <p>We have received your leave request from :<b>{{data.start_date}}</b>, to <b>{{data.end_date}}</b> totalling to <b>{{ data.end_date|timeuntil:data.start_date }}</b></p>
-                                    <p>As of <b>{{data.start_date}}</b>, your leave request is approved.</p>
-                                    <p>Per your request, this time off will be marked as <b>{{data.leave_type}}</b>.</p>
-                                    <br>
-                                    <P>Thanks.</P>
-                                    <p>[signature]</p>
-                                    <p>Human Resource Rongo University</p>
+                                    <p>Following the request for <b>{{data.leave_type}}</b> (leave) from :<b>{{data.start_date}}</b>, to <b>{{data.end_date}}</b>, your leave has been Accepted and you have been granted a chance for leave for <b>{{ data.end_date|timeuntil:data.start_date }}.</b></p>
+                                    <p>By a copy of this letter you are asked to present it to Human Resource for signing and stamping before leaving for your leave, <b>{{data.start_date}}</b>.</p>
+                                    <p>We wish you all the best in your Leave period.</p>
+                                    <P>Yours Sincerely,<br><br><br>
+                                    <span>___________________________</span>
+                                    <span style="float: right;">__________________________</span>
+                                    </P>
+                                    <p>
+                                        <span style="margin-left: 60px;">[signature]</span>
+                                        <span style="float: right;margin-right: 60px;">[stamp]</span>
+                                    </p>
+                                    <p><b>Rev. Dr.JNATHAN WILLIAM OMOLO</b></p>
+                                    <p><b>&nbsp;&nbsp;Ag. HEAD OF HUMAN RESOURCE</b></p><br>
+                                    <p>&nbsp;&nbsp;Cc: Deputy Vice-Chancellor (AFP)</p>
+                                    <p>&nbsp;&nbsp;&nbsp;&nbsp; Head, {{data.user.reporting_to.department}}</p>
+                                    <p>&nbsp;&nbsp; JWO/fn</p><br><br>
+                                    <hr>
+                                    <p style="text-align: center;"><i><b>Rongo University is ISO 9001:2015 Certified</b></i>
+                                        <span><img style="width: 80px;height: 80px;border-radius: 50%;" src="{% static 'assets/images/iso.png' %}" alt=""></span>
+                                    </p>
                                     </body>
                                 </div>
                             </form>
+                            {% endif %}
+                            {% endif %}
+                            {% endif %}
                             <input type="button" class="btn btn-primary" onclick="GeneratePdf();" value="Download">
-                            {% endif %}
-                            {% endif %}
-                            {% endif %}
                             {% endfor %}
                         </div>
                     </div>

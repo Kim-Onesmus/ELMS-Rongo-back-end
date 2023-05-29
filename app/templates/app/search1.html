@@ -1,11 +1,26 @@
 {% extends 'admin1.html' %}
 {% load static %}
 {% block content %}
+<!-- <script src="{% static 'js/script.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
+<div class="preloader">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
+<!-- <div id="formPopup" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeFormPopup()">&times;</span>
+        <div id="formPopupContent"></div>
+    </div>
+</div> -->
+
     <div class="page-wrapper">
         <div class="page-breadcrumb">
             <div class="row">
                 <div class="col-7 align-self-center">
-                    <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Accepted Leaves</h4>
+                    <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">All Leaves</h4>
                 </div>
             </div>
         </div>
@@ -16,8 +31,8 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="zero_config" class="table table-striped table-bordered no-wrap">
-                                    <thead style="background-color: dodgerblue;">
-                                        <tr style="color: black;">
+                                    <thead>
+                                        <tr style="color: black;background-color: dodgerblue;">
                                             <th>Employee</th>
                                             <th>Department</th>
                                             <th>Leave Type</th>
@@ -26,11 +41,12 @@
                                             <th>Leave days remaining</th>
                                             <th>Leave Status</th>
                                             <th>Action</th>
-                                            <th>Comment</th>
+                                            <th>UserComment</th>
                                         </tr>
                                     </thead>
                                     <tbody style="color: black;">
-                                        {% for data in accepted reversed %}
+                                        {% if leave %}
+                                        {% for data in leave reversed %}
                                         {% if data.leave_status == 'Pending' %} 
                                         {% if data.leave_status == 'Rejected' %}
                                         <p style="display: none;"></p>
@@ -54,21 +70,35 @@
                                         </tr>
                                         {% endif %}
                                         {% endfor %}
+
+                                        {% else %}
+                                        {% for data in leavess reversed %}
+                                        {% if data.leave_status == 'Pending' %} 
+                                        {% if data.leave_status == 'Rejected' %}
+                                        <p style="display: none;"></p>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if data.leave_status == 'Accepted' %}
+                                        <tr>
+                                            <td>
+                                                <img src="{{data.user.image.url}}" alt="user" class="rounded-circle" width="45"
+                                                height="45">
+                                                <p>{{data.user}}</p>
+                                            </td>
+                                            <td>{{data.user.department}}</td>
+                                            <td>{{data.leave_type}}</td>
+                                            <td>{{data.start_date}}</td>
+                                            <td>{{data.end_date}}</td>
+                                            <td>{{data.user.leave_days}}</td>
+                                            <td><span style="color: green;">{{data.leave_status1}}</span><br>{{data.comment1}}</a></td>
+                                            <td><button style="background-color: darkcyan;"><a style="color: black;" href="{% url 'action' data.id %}">Action</a></button></td>
+                                            <td>{{data.comment}}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% endif %}
                                     </tbody>
                                 </table>
-                                <!-- <ul class="pagination float-right">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul> -->
                             </div>
                         </div>
                     </div>
@@ -80,5 +110,5 @@
                 href="https://wrappixel.com">..........</a>.
         </footer>
     </div>
-</div>
+
 {% endblock content %}

@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm, TextInput, Select
 from django.contrib.auth.models import User
-from .models import Leave, Worker, Department, Category
+from .models import Leave, Worker, Department, Category, jobGroup
 from django import forms
 
 class LeaveForm(forms.ModelForm):
@@ -41,4 +41,10 @@ class DepartmentForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
+        fields = '__all__'
+        
+        
+class jobGroupForm(forms.ModelForm):
+    class Meta:
+        model = jobGroup
         fields = '__all__'

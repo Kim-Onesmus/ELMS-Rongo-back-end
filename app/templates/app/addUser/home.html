@@ -70,7 +70,7 @@
                                 <div class="search_container">
                                    <form action="{% url 'search' %}" method="GET">
                                         <div class="search_box">
-                                            <input name="q" placeholder="Search product..." type="text" required>
+                                            <input name="q" placeholder="Search........" type="text" required>
                                             <button type="submit">Search</button> 
                                         </div>
                                     </form>
@@ -121,6 +121,8 @@
             </div>
         </div>         
     </div>
+    <section class="pt-60 pb-30 gray-bg">
+    <div class="container">
     <div class="page-wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -141,8 +143,8 @@
                                 <div class="col-md-6 col-lg-3 col-xlg-3">
                                     <div class="card card-hover">
                                         <div class="p-2 bg-danger text-center">
-                                            <h1 class="font-light text-white">{{ict}}</h1>
-                                            <h6 class="text-white">ICT Workers</h6>
+                                            <h1 class="font-light text-white">{{job_groups}}</h1>
+                                            <h6 class="text-white">Total Job Groups</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -150,8 +152,8 @@
                                 <div class="col-md-6 col-lg-3 col-xlg-3">
                                     <div class="card card-hover">
                                         <div class="p-2 bg-success text-center">
-                                            <h1 class="font-light text-white">{{finance}}</h1>
-                                            <h6 class="text-white">Finance Workers</h6>
+                                            <h1 class="font-light text-white">{{category_count}}</h1>
+                                            <h6 class="text-white">Total categories</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -159,8 +161,8 @@
                                 <div class="col-md-6 col-lg-3 col-xlg-3">
                                     <div class="card card-hover">
                                         <div class="p-2 bg-danger text-center">
-                                            <h1 class="font-light text-white">{{admission}}</h1>
-                                            <h6 class="text-white">Admissions Workers</h6>
+                                            <h1 class="font-light text-white">{{departments}}</h1>
+                                            <h6 class="text-white">Total Departments</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +175,8 @@
         </div>
     </div>
     <br>
-    <h2>Users</h2>
+    <h2>Job Groups</h2>
+    <br>
     <div class="members">
         <div style="width: 95%; margin: 0% auto;" class="welcome">
             <div class="loopp1">                
@@ -182,16 +185,10 @@
                         <table border="none" style=" border-collapse: collapse; width: 100%;">
                             <tr style="background-color: dodgerblue; padding: 20px;">
                                 <th>
-                                    <b>User</b>
+                                    <b>Job group</b>
                                 </th>
                                 <th>
-                                    <b>PF No.</b>
-                                </th>
-                                <th >
-                                    <b>Department</b>
-                                </th>
-                                <th>
-                                    <b>Reporting To</b>
+                                    <b>Days</b>
                                 </th>
                                 <th>
                                     <b>Update</b>
@@ -201,14 +198,52 @@
                                 </th>
                             </tr>
                             <tbody>
-                                {% for data in all_users %}
+                                {% for data in job_group %}
                                 <tr style="margin: 0% auto;">
-                                    <td>{{data.name}}</td>
-                                    <td>{{data.username}}</td>
+                                    <td>{{data.job_group}}</td>
+                                    <td>{{data.leaveDays}}</td>
+                                    <td><button><a href="{% url 'updateJobGroup' data.id %}">Update</a></button></td>
+                                    <td><button><a href="{% url 'delete_job' data.id %}">Delete</a></button></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h2>Departments</h2>
+    <br>
+    <div class="members">
+        <div style="width: 95%; margin: 0% auto;" class="welcome">
+            <div class="loopp1">                
+                <div class="loop1">
+                    <div class="data1">
+                        <table border="none" style=" border-collapse: collapse; width: 100%;">
+                            <tr style="background-color: dodgerblue; padding: 20px;">
+                                <th>
+                                    <b>Category</b>
+                                </th>
+                                <th>
+                                    <b>Department</b>
+                                </th>
+                                <th>
+                                    <b>Update</b>
+                                </th>
+                                <th>
+                                    <b>Delete</b>
+                                </th>
+                            </tr>
+                            <tbody>
+                                {% for data in department %}
+                                <tr style="margin: 0% auto;">
+                                    <td>{{data.category}}</td>
                                     <td>{{data.department}}</td>
-                                    <td>{{data.reporting_to}}</td>
-                                    <td><button><a href="{% url 'update_user1' data.id %}">Update</a></button></td>
-                                    <td><button><a href="{% url 'delete_user' data.id %}">Delete</a></button></td>
+                                    <td><button><a href="{% url 'updateDepartment' data.id %}">Update</a></button></td>
+                                    <td><button><a href="{% url 'delete_department' data.id %}">Delete</a></button></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

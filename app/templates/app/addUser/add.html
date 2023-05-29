@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-lg-9 col-md-6">
                             <div class="middel_right">
-                                <div style="background-color: white;" class="search_container">
+                                <div class="search_container">
                                     <img style="width: 300px;height: 70px; padding: 0%;" src="{% static 'assets/images/logo1.png' %}" alt="">
                                 </div> 
                             </div>
@@ -110,6 +110,8 @@
             <!--header bottom end-->
         </div> 
     </header>
+    <section class="pt-60 pb-30 gray-bg">
+    <div class="container">
     <div class="breadcrumbs_area">
         <div class="container">   
             <div class="row">
@@ -155,6 +157,15 @@
                                         placeholder="Enter email" required>
                                 </div>
                             </div>
+                            <!-- <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="job_group">Job Group:</label>
+                                <select class="form-control" id="job_group" name="job_group">
+                                  {% for job_group in job_groups %}
+                                    <option value="{{ job_group.pk }}">{{ job_group.job_group }}</option>
+                                  {% endfor %}
+                                </select>
+                            </div> -->
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="text-dark" for="pwd">Password</label>

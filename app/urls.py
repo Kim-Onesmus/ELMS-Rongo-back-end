@@ -12,7 +12,12 @@ urlpatterns = [
     path('documentation', views.Documentation, name='documentation'),
     path('logout', views.Logout, name='logout'),
     path('profile', views.myProfile, name='profile'),
+    path('updateJobGroup/<str:pk>/', views.updateJobGroup, name='updateJobGroup'),
+    path('updateDepartment/<str:pk>/', views.updateDepartment, name='updateDepartment'),
     path('updateProfile', views.UpdateProfile, name='updateProfile'),
+    path('updateProfile1', views.UpdateProfile1, name='updateProfile1'),
+    path('search1', views.Search1, name='search1'),
+
     
     # <===========HR PAGES=================>
     path('all_leaves',views.allLeaves, name='all_leaves'),
@@ -27,7 +32,6 @@ urlpatterns = [
     path('pending1', views.Pending1, name='pending1'),
     path('accepted1', views.Accepted1, name='accepted1'),
     path('rejected1', views.Rejected1, name='rejected1'),
-    path('hod_apply', views.hodApply, name='hod_apply'),
     
     # <===========Add User==================>
     path('home', views.Home, name='home'),
@@ -41,6 +45,8 @@ urlpatterns = [
     path('all_users', views.allUsers, name='all_users'),
     path('update_user1/<str:pk>/', views.updateUser1, name='update_user1'),
     path('delete_user/<str:pk>/', views.deleteUser, name='delete_user'),
+    path('delete_department/<str:pk>/', views.deleteDepartment, name='delete_department'),
+    path('delete_job/<str:pk>/', views.deleteJob, name='delete_job'),
     path('search', views.Search, name='search'),
     
     # <===========Password Reset ===========>

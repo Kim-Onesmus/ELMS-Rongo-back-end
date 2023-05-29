@@ -13,12 +13,12 @@
                         <div class="col-lg-10">
                             <div class="account-contents" style="background: url('/static/images/signin.jpeg'); background-size: cover;">
                                 <div class="row">
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <div class="account-thumb">
+                                    <div style="background-color: aliceblue;" class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                        <div style="text-align: center;" class="account-thumb">
+                                            <h3 style="color: black;">{{user.worker.name}}</h3>
+                                            <p style="color: black;">Annual Leave days remaining</p>
+                                            <p style="color: black;">{{reminder}} days</p>
                                             <img style="width: 200px;height: 200px;border-radius: 50%;" src="{{request.user.worker.image.url}}">
-                                            <h2>{{user.username}}</h2>
-                                            <p>Annual Leave days remaining</p>
-                                            <p>{{reminder}} days</p>
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
