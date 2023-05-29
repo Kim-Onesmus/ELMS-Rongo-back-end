@@ -51,7 +51,7 @@ def Homepage(request):
 
 def applyLeave(request):
     worker = request.user.worker
-    leave_days = worker.job_group.leaveDays
+    leave_days = worker.job_group.leaveDays  # Get leave days specific to the worker's job group
     reminder = leave_days
 
     if request.method == 'POST':
@@ -86,7 +86,8 @@ def applyLeave(request):
         
         duration = (end - start).days
         if duration <= leave_days:
-            worker.job_group.leaveDays -= duration
+            leave_days -= duration
+            worker.job_group.leaveDays = leave_days  # Deduct leave days from the worker's job group
             worker.job_group.save()
         
             leave_details = Leave.objects.create(user=worker, leave_type=leave_type, start_date=start_date, end_date=end_date, duties=duties, comment=comment)
@@ -114,7 +115,6 @@ def applyLeave(request):
     
     context = {'reminder': reminder}
     return render(request, 'app/apply_leave.html', context)
-
 
 
 def Download(request):
