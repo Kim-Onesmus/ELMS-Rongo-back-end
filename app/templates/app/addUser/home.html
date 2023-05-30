@@ -200,7 +200,7 @@
                             <tbody>
                                 {% for data in job_group %}
                                 <tr style="margin: 0% auto;">
-                                    <td>{{data.job_group}}</td>
+                                    <td>{{data.jobgroup}}</td>
                                     <td>{{data.leaveDays}}</td>
                                     <td><button><a href="{% url 'updateJobGroup' data.id %}">Update</a></button></td>
                                     <td><button><a href="{% url 'delete_job' data.id %}">Delete</a></button></td>
