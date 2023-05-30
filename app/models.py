@@ -70,7 +70,7 @@ STATUS = [
 ]
 class jobGroup(models.Model):
     jobgroup = models.CharField(max_length=10)
-    leaveDays = models.PositiveIntegerField()
+    leaveDays = models.PositiveBigIntegerField()
     
     def __str__(self):
         return self.jobgroup
