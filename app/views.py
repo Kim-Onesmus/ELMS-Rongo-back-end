@@ -51,21 +51,19 @@ def Homepage(request):
 
 def applyLeave(request):
     worker = request.user.worker
-    leave_days = worker.job_group.leaveDays  # Get leave days specific to the worker's job group
-    reminder = leave_days
+    available_leave_days = worker.leave_days  # Get leave days specific to the worker
 
     if request.method == 'POST':
-        user = request.user.worker
         leave_type = request.POST['leave_type']
         start_date = request.POST['start_date']
         end_date = request.POST['end_date']
         duties = request.POST['number']
         comment = request.POST['comment']
-        
+
         today = datetime.now().date()
         start = datetime.strptime(start_date, '%Y-%m-%d').date()
         end = datetime.strptime(end_date, '%Y-%m-%d').date()
-        
+
         if start <= today:
             messages.error(request, 'You cannot apply leave for past dates')
             return redirect('apply_leave')
@@ -78,21 +76,22 @@ def applyLeave(request):
         if start > end:
             messages.error(request, 'Start date cannot be greater than end date')
             return redirect('apply_leave')
-        
+
         worker_duties = Worker.objects.filter(user__username=duties).first()
         if not worker_duties:
             messages.error(request, 'Invalid PF number')
             return redirect('apply_leave')
-        
+
         duration = (end - start).days
-        if duration <= leave_days:
-            leave_days -= duration
-            worker.job_group.leaveDays = leave_days 
+        if duration <= available_leave_days:
+            available_leave_days -= duration
+            worker.job_group.leaveDays = available_leave_days
+            worker.job_group.save()
             worker.save()
-        
+
             leave_details = Leave.objects.create(user=worker, leave_type=leave_type, start_date=start_date, end_date=end_date, duties=duties, comment=comment)
             leave_details.save()
-            
+
             subject = 'Leave Application Received - Acknowledgement'
             context = {
                 'user': worker,
@@ -102,19 +101,20 @@ def applyLeave(request):
             }
             html_message = render_to_string('app/email/apply.html', context)
             plain_message = strip_tags(html_message)
-            
+
             email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [worker.email])
             email.attach_alternative(html_message, "text/html")
             email.send()
-            
+
             messages.info(request, 'Leave application submitted successfully')
             return redirect('apply_leave')
         else:
             messages.error(request, 'Not enough leave days available')
             return redirect('apply_leave')
-    
-    context = {'reminder': reminder}
+
+    context = {'reminder': available_leave_days}
     return render(request, 'app/apply_leave.html', context)
+
 
 
 def Download(request):

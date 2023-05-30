@@ -73,7 +73,7 @@ class jobGroup(models.Model):
     leaveDays = models.PositiveIntegerField()
     
     def __str__(self):
-        return self.job_group
+        return self.jobgroup
     
 class Category(models.Model):
     category = models.CharField(max_length=200)
@@ -100,6 +100,10 @@ class Worker(models.Model):
     tittle = models.CharField(max_length=200, choices=TITTLE, default='none', null=True)
     reporting_to = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='media/', default='default.jpeg', null=True, blank=True)
+    
+    @property
+    def leave_days(self):
+        return self.job_group.leaveDays
     
     def __str__(self):
         return self.name
