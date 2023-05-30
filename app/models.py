@@ -69,7 +69,7 @@ STATUS = [
     ('Pending', 'Pending'),
 ]
 class jobGroup(models.Model):
-    job_group = models.CharField(max_length=10)
+    jobgroup = models.CharField(max_length=10)
     leaveDays = models.PositiveIntegerField()
     
     def __str__(self):

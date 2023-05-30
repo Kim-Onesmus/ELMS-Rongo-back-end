@@ -87,8 +87,8 @@ def applyLeave(request):
         duration = (end - start).days
         if duration <= leave_days:
             leave_days -= duration
-            worker.job_group.leaveDays = leave_days  # Deduct leave days from the worker's job group
-            worker.job_group.save()
+            worker.job_group.leaveDays = leave_days 
+            worker.save()
         
             leave_details = Leave.objects.create(user=worker, leave_type=leave_type, start_date=start_date, end_date=end_date, duties=duties, comment=comment)
             leave_details.save()

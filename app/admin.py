@@ -15,7 +15,7 @@ class LeaveTable(admin.ModelAdmin):
     
 @admin.register(jobGroup)
 class jobGroupTable(admin.ModelAdmin):
-    list_display = ("job_group", "leaveDays")
+    list_display = ("jobgroup", "leaveDays")
     
     
 admin.site.register(Department)
