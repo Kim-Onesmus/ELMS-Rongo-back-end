@@ -3,6 +3,8 @@ from django.contrib.auth.models import auth, User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.core.mail import EmailMultiAlternatives
+from django.shortcuts import get_object_or_404
+from django.http  import Http404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from datetime import datetime, date
@@ -51,7 +53,7 @@ def Homepage(request):
 
 def applyLeave(request):
     worker = request.user.worker
-    available_leave_days = worker.leave_days  # Get leave days specific to the worker
+    available_leave_days = worker.leave_days
 
     if request.method == 'POST':
         leave_type = request.POST['leave_type']
@@ -85,35 +87,40 @@ def applyLeave(request):
         duration = (end - start).days
         if duration <= available_leave_days:
             available_leave_days -= duration
-            worker.job_group.leaveDays = available_leave_days
-            worker.job_group.save()
+            worker.leave_days = available_leave_days
             worker.save()
 
             leave_details = Leave.objects.create(user=worker, leave_type=leave_type, start_date=start_date, end_date=end_date, duties=duties, comment=comment)
             leave_details.save()
+            
+            try:
+                subject = 'Leave Application Received - Acknowledgement'
+                context = {
+                    'user': worker,
+                    'leave_type': leave_type,
+                    'start_date': start_date,
+                    'end_date': end_date,
+                }
+                html_message = render_to_string('app/email/apply.html', context)
+                plain_message = strip_tags(html_message)
 
-            subject = 'Leave Application Received - Acknowledgement'
-            context = {
-                'user': worker,
-                'leave_type': leave_type,
-                'start_date': start_date,
-                'end_date': end_date,
-            }
-            html_message = render_to_string('app/email/apply.html', context)
-            plain_message = strip_tags(html_message)
+                email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [worker.email])
+                email.attach_alternative(html_message, "text/html")
+                email.send()
 
-            email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [worker.email])
-            email.attach_alternative(html_message, "text/html")
-            email.send()
+            except:
+                raise Http404
+                
+                messages.info(request, 'Leave application submitted successfully')
+                return redirect('apply_leave')
 
-            messages.info(request, 'Leave application submitted successfully')
-            return redirect('apply_leave')
         else:
             messages.error(request, 'Not enough leave days available')
             return redirect('apply_leave')
 
     context = {'reminder': available_leave_days}
     return render(request, 'app/apply_leave.html', context)
+
 
 
 
@@ -436,14 +443,14 @@ def updateUser(request):
 
 def JobGroup(request):
     if request.method == 'POST':
-        job_group = request.POST['job_group']
+        jobgroup = request.POST['job_group']
         leaveDays = request.POST['leaveDays']
         
-        if jobGroup.objects.filter(job_group=job_group).exists():
+        if jobGroup.objects.filter(jobgroup=jobgroup).exists():
             messages.error(request, 'Job group already added')
             return redirect('jobgroup')
         else:
-            jobs = jobGroup.objects.create(job_group=job_group, leaveDays=leaveDays)
+            jobs = jobGroup.objects.create(jobgroup=jobgroup, leaveDays=leaveDays)
             jobs.save()
             
             messages.info(request, 'Job group added')
@@ -628,7 +635,7 @@ def Search(request):
     department_count = departments.count()
     
     # Search for job groups matching the query
-    job_groups = jobGroup.objects.filter(job_group__icontains=q)
+    job_groups = jobGroup.objects.filter(jobgroup__icontains=q)
     job_group_count = job_groups.count()
     
     context = {

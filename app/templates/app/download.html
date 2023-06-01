@@ -29,7 +29,7 @@
                             {% if forloop.first %}
                             <form style="padding: 40px; color: black;background-color: white;" id="download" class="text-dark">
                                 <div style="margin: 0% auto; color: black;">
-                                    <center><img style="width: 550px;height: 150px;" src="{% static 'assets/images/logo1.png' %}" alt="rongo"></center>
+                                    <center><img style="width: 500px;height: 100px;" src="{% static 'assets/images/logo1.png' %}" alt="rongo"></center>
                                 </div><br>
                                 <p style="text-align: center;font-weight: bold;font-size: 20px;color: black;">HUMAN RESOURCE SECTION</p><span style="color: black;"><hr></span>
                                 <p style="text-align: left ;font-size: 15px;color: black;"><b>REF</b>:  RU/AFP/HR/ 
@@ -51,13 +51,7 @@
                                     <p>By a copy of this letter you are asked to present it to Human Resource for signing and stamping before leaving for your leave, <b>{{data.start_date}}</b>.</p>
                                     <p>We wish you all the best in your Leave period.</p>
                                     <P>Yours Sincerely,<br><br><br>
-                                    <span>___________________________</span>
-                                    <span style="float: right;">__________________________</span>
                                     </P>
-                                    <p>
-                                        <span style="margin-left: 60px;">[signature]</span>
-                                        <span style="float: right;margin-right: 60px;">[stamp]</span>
-                                    </p>
                                     <p><b>Rev. Dr.JNATHAN WILLIAM OMOLO</b></p>
                                     <p><b>&nbsp;&nbsp;Ag. HEAD OF HUMAN RESOURCE</b></p><br>
                                     <p>&nbsp;&nbsp;Cc: Deputy Vice-Chancellor (AFP)</p>
@@ -70,10 +64,10 @@
                                     </body>
                                 </div>
                             </form>
-                            {% endif %}
-                            {% endif %}
-                            {% endif %}
                             <input type="button" class="btn btn-primary" onclick="GeneratePdf();" value="Download">
+                            {% endif %}
+                            {% endif %}
+                            {% endif %}
                             {% endfor %}
                         </div>
                     </div>

@@ -26,16 +26,16 @@
     </div>
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        <header style="background-color: dodgerblue;" class="topbar" data-navbarbg="skin6">
-            <nav class="navbar top-navbar navbar-expand-md">
-                <div style="background-color: blue;" class="navbar-header" data-logobg="skin6">
+        <header class="topbar" data-navbarbg="skin6">
+            <nav  style="box-shadow: 0 15px 30px rgba(207, 204, 204, 0.556);" class="navbar top-navbar navbar-expand-md">
+                <div class="navbar-header" data-logobg="skin6">
                     <!-- This is for the sidebar toggle which is visible on mobile only -->
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i style="color: black;"
                             class="ti-menu ti-close"></i></a>
                     <div class="navbar-brand">
                         <!-- Logo icon -->
                         <a href="admin.html">
-                            <p style="text-transform: capitalize;font-size: 30px;color: black;">RONGO ELMS</p>
+                            <p style="text-transform: capitalize;font-size: 30px;color: dodgerblue;">RONGO ELMS</p>
                         </a>
                     </div>
                     <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
@@ -75,19 +75,8 @@
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">{{user.username}}</span> <i data-feather="chevron-down"
-                                        class="svg-icon"></i></span>
+                                        class="text-dark">{{user.username}}</span></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    My Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    Logout</a>
-                                <div class="dropdown-divider"></div>
-                            </div>
                         </li>
                     </ul>
                 </div>

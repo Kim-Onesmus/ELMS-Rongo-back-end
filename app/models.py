@@ -71,7 +71,7 @@ STATUS = [
 class jobGroup(models.Model):
     jobgroup = models.CharField(max_length=10)
     leaveDays = models.PositiveBigIntegerField()
-    
+        
     def __str__(self):
         return self.jobgroup
     
@@ -96,14 +96,12 @@ class Worker(models.Model):
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(max_length=200, null=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
-    job_group = models.ForeignKey(jobGroup, null=True, on_delete=models.CASCADE)
+    job_group = models.CharField(max_length=200, null=True)
+    leave_days = models.PositiveBigIntegerField(default=0, null=True)
     tittle = models.CharField(max_length=200, choices=TITTLE, default='none', null=True)
     reporting_to = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='media/', default='default.jpeg', null=True, blank=True)
     
-    @property
-    def leave_days(self):
-        return self.job_group.leaveDays
     
     def __str__(self):
         return self.name

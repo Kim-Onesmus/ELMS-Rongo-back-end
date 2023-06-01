@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="canvas_open">
-                        <a href="javascript:void(0)"><i class="ion-navicon"></i></a>
+                        <a style="background-color: black;" href="javascript:void(0)"><i class="ion-navicon"></i></a>
                     </div>
                     <div class="Offcanvas_menu_wrapper">
                         <div class="canvas_close">
@@ -58,12 +58,12 @@
     
     <header>
         <div class="main_header">
-            <div class="header_middle">
+            <div style="background-color: white;" class="header_middle">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-3 col-md-6">
                             <div class="logo">
-                                <a href="{% url 'home' %}"><h3 style="color: white;">Rongo ELMS</h3></a>
+                                <a href="{% url 'home' %}"><h3 style="color: dodgerblue;">Rongo ELMS</h3></a>
                             </div>
                         </div>
                         <div class="col-lg-9 col-md-6">
@@ -184,7 +184,20 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="text-dark" for="uname">Job Group</label>
-                                    {{form.job_group}}
+                                    <select class="form-control" id="uname" name="job_group" required>
+                                        <option value="">Select Job group</option>
+                                        <option value="1-4">Job group 1-4</option>
+                                        <option value="5-11">Job group 5-11</option>
+                                        <option value="12-16">Job group 12-16</option>
+                                        <option value="17-20">Job group 17-20</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br><br><br><br>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="uname">Leave Days</label>
+                                    {{form.leave_days}}
                                 </div>
                             </div>
                             <br><br>

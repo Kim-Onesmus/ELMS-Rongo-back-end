@@ -70,15 +70,15 @@
                     <div class="row align-items-center">
                         <div class="col-lg-3 col-md-6">
                             <div class="logo">
-                                <a href="{% url 'home' %}"><h3 style="color: white;">Rongo ELMS</h3></a>
+                                <a href="{% url 'home' %}"><h3 style="color: dodgerblue">Rongo ELMS</h3></a>
                             </div>
                         </div>
                         <div class="col-lg-9 col-md-6">
                             <div class="middel_right">
                                 <div class="search_container">
-                                   <form action="" method="GET">
+                                   <form action="{% url 'search' %}" method="GET">
                                         <div class="search_box">
-                                            <input name="q" placeholder="Search product..." type="text" required>
+                                            <input name="q" placeholder="Search........" type="text" required>
                                             <button type="submit">Search</button> 
                                         </div>
                                     </form>
@@ -174,48 +174,6 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    <br>
-    {% if job_groups %}
-    <p style="text-align: center;">{{job_group_count}} Job Groups found</p>
-    <br>
-    <div class="members">
-        <div style="width: 95%; margin: 0% auto;" class="welcome">
-            <div class="loopp1">                
-                <div class="loop1">
-                    <div class="data1">
-                        <table border="none" style=" border-collapse: collapse; width: 100%;">
-                            <tr style="background-color: dodgerblue; padding: 20px;">
-                                <th>
-                                    <b>Job group</b>
-                                </th>
-                                <th>
-                                    <b>Days</b>
-                                </th>
-                                <th>
-                                    <b>Update</b>
-                                </th>
-                                <th>
-                                    <b>Delete</b>
-                                </th>
-                            </tr>
-                            <tbody>
-                                {% for data in job_groups %}
-                                <tr style="margin: 0% auto;">
-                                    <td>{{data.job_group}}</td>
-                                    <td>{{data.leaveDays}}</td>
-                                    <td><button><a href="{% url 'updateJobGroup' data.id %}">Update</a></button></td>
-                                    <td><button><a href="{% url 'delete_job' data.id %}">Delete</a></button></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
                     </div>
                 </div>
             </div>

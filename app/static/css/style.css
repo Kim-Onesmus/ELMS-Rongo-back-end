@@ -978,7 +978,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 .header_middle {
   padding: 25px 0;
-  background: #3e51eb;
+  background: white;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .header_middle {
@@ -1120,6 +1120,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   display: flex;
   background: #fff;
   width: 600px;
+  border: 2px solid black;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .search_container form {

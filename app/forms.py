@@ -8,6 +8,11 @@ class LeaveForm(forms.ModelForm):
     class Meta:
         model = Leave
         fields = '__all__'
+        widgets = {
+        'comment': forms.TextInput(attrs={'class': 'form-control'}),
+        'leave_status': forms.Select(attrs={'class': 'form-control'}),
+        'leave_status1': forms.Select(attrs={'class': 'form-control'}),
+    }
         
 class WorkerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -16,7 +21,7 @@ class WorkerForm(forms.ModelForm):
     class Meta:
         model = Worker
         fields = '__all__'
-    widgets = {
+        widgets = {
         'username': forms.TextInput(attrs={'class': 'form-control'}),
         'name': forms.TextInput(attrs={'class': 'form-control'}),
         'email': forms.EmailInput(attrs={'class': 'form-control'}),
@@ -25,6 +30,7 @@ class WorkerForm(forms.ModelForm):
         'tittle': forms.Select(attrs={'class': 'form-control'}),
         'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         'reporting_to': forms.Select(attrs={'class': 'form-control'}),
+        'leave_days': forms.NumberInput(attrs={'class': 'form-control'}),
         # Add more fields here with their respective widget styles
     }
         
@@ -33,18 +39,26 @@ class DepartmentForm(forms.ModelForm):
     class Meta:
         model = Department
         fields = '__all__'
-        # widgets = {
-        #     'category': forms.Select(attrs={'class': 'form-control'}),
-        # }
+        widgets = {
+        'department': forms.TextInput(attrs={'class': 'form-control'}),
+        'category': forms.Select(attrs={'class': 'form-control'}),
+        }
         
         
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = '__all__'
+        widgets = {
+        'category': forms.TextInput(attrs={'class': 'form-control'}),
+        }
         
         
 class jobGroupForm(forms.ModelForm):
     class Meta:
         model = jobGroup
         fields = '__all__'
+        widgets = {
+            'jobgroup':forms.TextInput(attrs={'class':'form-control'}),
+            'leaveDays':forms.TextInput(attrs={'class':'form-control'}),
+        }
