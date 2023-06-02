@@ -111,8 +111,8 @@ def applyLeave(request):
             except:
                 raise Http404
                 
-                messages.info(request, 'Leave application submitted successfully')
-                return redirect('apply_leave')
+            messages.info(request, 'Leave application submitted successfully')
+            return redirect('apply_leave')
 
         else:
             messages.error(request, 'Not enough leave days available')
