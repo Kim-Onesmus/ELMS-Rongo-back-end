@@ -9,7 +9,7 @@
                     <div class="d-flex align-items-center">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb m-0 p-0">
-                                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">My Profile</a>
+                                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">Carry Forward</a>
                                 </li>
                             </ol>
                         </nav>
@@ -27,51 +27,20 @@
                                     <thead>
                                         <tr style="color: black;">
                                             <tr style="color: black;">
-                                                <th>PF Number</th>
-                                                <td>{{worker.username}}</td>
+                                                <th>This year remaining Leave Days</th>
+                                                <td>{{reminder}}</td>
                                             </tr>
                                             <tr style="color: black;">
-                                                <th>Name</th>
-                                                <td>{{worker.name}}</td>
+                                                <th>Last Year Carry Forwarded</th>
+                                                <td>5</td>
                                             </tr>
                                             <tr style="color: black;">
-                                                <th>Email</th>
-                                                <td>{{worker.email}}</td>
-                                            </tr>
-                                            <tr style="color: black;">
-                                                <th>Department</th>
-                                                <td>{{worker.department}}</td>
-                                            </tr>
-                                            <tr style="color: black;">
-                                                <th>Job Group</th>
-                                                <td>{{worker.job_group}}</td>
-                                            </tr>
-                                            <tr style="color: black;">
-                                                <th>Reporting To</th>
-                                                <td>{{worker.reporting_to}}</td>
-                                            </tr>
-                                            <tr style="color: black;">
-                                                <th>Image</th>
-                                                <td>
-                                                    <span class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">
-                                                        {% if worker.image %}
-                                                        <img style="width: 200px; height: 200px;border-radius: 50%;" src="{{ worker.image.url }}" alt="">
-                                                        {% else %}
-                                                            <img style="width: 200px; height: 200px;border-radius: 50%;" src="{% static 'assets/images/default.jpeg' %}" alt="Default Profile Photo">
-                                                        {% endif %}
-                                                    </span>
-                                                </td>
+                                                <th>Total Leave Days</th>
+                                                <td>30</td>
                                             </tr>
                                         </tr>
                                     </thead>
                                 </table>
-                                <ul class="pagination float-right">
-                                    <li class="page-item"> To edit profile click
-                                        <a style="color: dodgerblue;padding-right: 40px;" href="{% url 'updateProfile' %}" tabindex="-1"><u>here.</u></a>
-                                        and to change Password click
-                                        <a style="color: dodgerblue;padding-right: 40px;" href="{% url 'updateProfile1' %}" tabindex="-1"><u>here.</u></a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>

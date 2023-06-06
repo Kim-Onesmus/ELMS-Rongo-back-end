@@ -147,7 +147,16 @@ def History(request):
 
 @login_required(login_url='/')
 def CarryForward(request):
-    return render(request, 'app/carryForward.html')
+    worker = request.user.worker
+    reminder = worker.leave_days
+    carry_forwarded = worker.leave_days_previous_year
+    total_leave_days = worker.leave_days + worker.leave_days_previous_year
+    context = {
+        'reminder': reminder,
+        'carry_forwarded': carry_forwarded,
+        'total_leave_days': total_leave_days
+    }
+    return render(request, 'app/carryForward.html', context)
 
 @login_required(login_url='/')
 def Calendar(request):
