@@ -51,9 +51,9 @@ class Worker(models.Model):
     tittle = models.CharField(max_length=200, choices=TITTLE, default='none', null=True)
     reporting_to = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='media/', default='default.jpeg', null=True, blank=True)
-    last_leave_year = models.PositiveIntegerField(default=0)
-    leave_days_previous_year = models.PositiveBigIntegerField(default=0)
-    leave_days_utilized_previous_year = models.PositiveBigIntegerField(default=0)
+    last_leave_year = models.PositiveIntegerField(default=0, null=True)
+    leave_days_previous_year = models.PositiveBigIntegerField(default=0, null=True)
+    leave_days_utilized_previous_year = models.PositiveBigIntegerField(default=0, null=True)
 
     def __str__(self):
         return self.name

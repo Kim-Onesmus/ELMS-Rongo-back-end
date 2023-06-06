@@ -130,12 +130,20 @@
                 <div class="p-3">
                     <h2 class="mt-3 text-center text-dark">Update User</h2>
                     <p class="text-center"></p>
-                    {% for data in messages %}
-                    <p style="color: red;text-align: center;">{{data}}</p>
+                    {% for message in messages %}
+                    <div class="alert {{message.tags}} alert-dismissible" role="alert">
+                        <button type="submit" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{message | safe}}
+                    </div>
                     {% endfor %}
                     <form class="mt-4" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row">
+                            {{form.last_leave_year.as_hidden}}
+                            {{form.leave_days_previous_year.as_hidden}}
+                            {{form.leave_days_utilized_previous_year.as_hidden}}
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="text-dark" for="uname">User</label>
