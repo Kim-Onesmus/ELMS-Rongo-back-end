@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import auth, User
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
@@ -21,7 +22,7 @@ from django.db.models import Q
 
 
 
-
+@login_required(login_url='/')
 def Homepage(request):
     user = request.user.worker
     leaves = Leave.objects.filter(user=user)
@@ -36,11 +37,10 @@ def Homepage(request):
         start = datetime.strptime(str(leave.start_date), '%Y-%m-%d').date()
         end = datetime.strptime(str(leave.end_date), '%Y-%m-%d').date()
         
-        if end - start != 0:
+        if (end - start) != 0:
             accepted = Leave.objects.filter(leave_status='Accepted', leave_status1='Accepted')
             leave.save()
             leave_accepted = accepted.count()
-    
     rejected = Leave.objects.filter(leave_status='Rejected', leave_status1='Rejected')
     leave_reject = rejected.count()
     
@@ -50,7 +50,7 @@ def Homepage(request):
     context = {'all_workers':all_workers,'leaves':leaves, 'leave_accepted':leave_accepted,'leave_reject':leave_reject, 'leave_pending':leave_pending,}
     return render(request, 'app/index.html', context)
 
-
+@login_required(login_url='/')
 def applyLeave(request):
     worker = request.user.worker
     available_leave_days = worker.leave_days
@@ -123,7 +123,7 @@ def applyLeave(request):
 
 
 
-
+@login_required(login_url='/')
 def Download(request):
     user = request.user.worker
     leaves = Leave.objects.filter(user=user)
@@ -136,6 +136,7 @@ def Download(request):
     context = {'leaves':leaves, 'total':total}
     return render(request, 'app/download.html', context)
 
+@login_required(login_url='/')
 def History(request):
     user = request.user.worker
     leaves = Leave.objects.filter(user=user)
@@ -143,6 +144,7 @@ def History(request):
     context = {'leaves':leaves}
     return render(request, 'app/history.html', context)
 
+@login_required(login_url='/')
 def Calendar(request):
     return render(request, 'app/calendar.html')
 
@@ -180,9 +182,11 @@ def Login(request):
         return render(request, 'app/login.html')
     return render(request, 'app/login.html')
 
+@login_required(login_url='/')
 def Documentation(request):
     return render(request, 'app/documentation.html')
 
+@login_required(login_url='/')
 def Logout(request):
     if request.method == 'POST':
         auth.logout(request)
@@ -191,6 +195,7 @@ def Logout(request):
     return render(request, 'app/logout.html')
 
 
+@login_required(login_url='/')
 def Search1(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     leave = Leave.objects.filter(
@@ -204,6 +209,7 @@ def Search1(request):
 
 # <=======================HR==================>
 
+@login_required(login_url='/')
 def allLeaves(request):
     leaves = Leave.objects.all()
     q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -216,6 +222,8 @@ def allLeaves(request):
     context = {'leaves':leaves, 'leave':leave}
     return render(request, 'app/hr/all_leaves.html', context)
 
+
+@login_required(login_url='/')
 def Action(request, pk):
     leaves = Leave.objects.get(id=pk)
     form = LeaveForm(instance=leaves)
@@ -245,6 +253,8 @@ def Action(request, pk):
     context = {'form':form}
     return render(request, 'app/hr/action.html', context)
 
+
+@login_required(login_url='/')
 def Pending(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     leave = Leave.objects.filter(
@@ -257,6 +267,7 @@ def Pending(request):
     context = {'pending':pending, 'leave':leave}
     return render(request, 'app/hr/pending.html', context)
 
+@login_required(login_url='/')
 def Accepted(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     leave = Leave.objects.filter(
@@ -269,6 +280,7 @@ def Accepted(request):
     context = {'accepted':accepted, 'leave':leave}
     return render(request, 'app/hr/accepted.html', context)
 
+@login_required(login_url='/')
 def Rejected(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     leave = Leave.objects.filter(
@@ -284,6 +296,7 @@ def Rejected(request):
 
 # <=======================HOD==================>
 
+@login_required(login_url='/')
 def allLeaves1(request):
     hod = request.user.worker
     leaves = Leave.objects.filter(user__reporting_to=hod)
@@ -299,6 +312,7 @@ def allLeaves1(request):
     context = {'leaves':leaves,}
     return render(request, 'app/hod/all_leaves1.html', context)
 
+@login_required(login_url='/')
 def Action1(request, pk):
     leaves = Leave.objects.get(id=pk)
     form = LeaveForm(instance=leaves)
@@ -327,6 +341,7 @@ def Action1(request, pk):
     context = {'form':form}
     return render(request, 'app/hod/action1.html', context)
 
+@login_required(login_url='/')
 def Pending1(request):
     hod = request.user.worker
     pending = Leave.objects.filter(user__reporting_to=hod, leave_status='Pending')
@@ -334,6 +349,7 @@ def Pending1(request):
     context = {'pending':pending}
     return render(request, 'app/hod/pending1.html', context)
 
+@login_required(login_url='/')
 def Accepted1(request):
     hod = request.user.worker
     accepted = Leave.objects.filter(user__reporting_to=hod, leave_status='Accepted')
@@ -341,6 +357,7 @@ def Accepted1(request):
     context = {'accepted':accepted}
     return render(request, 'app/hod/accepted1.html', context)
 
+@login_required(login_url='/')
 def Rejected1(request):
     hod = request.user.worker
     rejected = Leave.objects.filter(user__reporting_to=hod, leave_status='Rejected')
@@ -349,7 +366,7 @@ def Rejected1(request):
     return render(request, 'app/hod/rejected1.html', context)
 
 # <===============Add User ===================>
-
+@login_required(login_url='/')
 def Home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     user = Worker.objects.filter(
@@ -386,12 +403,14 @@ def Home(request):
         }
     return render(request, 'app/addUser/home.html', context)
 
+@login_required(login_url='/')
 def allUsers(request):
     all_users = Worker.objects.all()
     
     context = {'all_users':all_users}
     return render(request, 'app/addUser/all_users.html', context)
 
+@login_required(login_url='/')
 def addUser(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -420,6 +439,7 @@ def addUser(request):
             return redirect('add_user')
     return render(request, 'app/addUser/add.html')
 
+@login_required(login_url='/')
 def updateUser(request):
     categories = Category.objects.all()
     username = request.GET.get('username')
@@ -440,7 +460,7 @@ def updateUser(request):
     context = {'form': form, 'categories': categories,'workers': workers}
     return render(request, 'app/addUser/update.html', context)
 
-
+@login_required(login_url='/')
 def JobGroup(request):
     if request.method == 'POST':
         jobgroup = request.POST['job_group']
@@ -459,7 +479,7 @@ def JobGroup(request):
         return render(request, 'app/addUser/jobGroup.html')
     return render(request, 'app/addUser/jobGroup.html')
 
-
+@login_required(login_url='/')
 def addDepartment(request):
     department_form = DepartmentForm()
 
@@ -481,7 +501,7 @@ def addDepartment(request):
     }
     return render(request, 'app/addUser/department.html', context)
 
-
+@login_required(login_url='/')
 def updateDepartment(request, pk):
     department = Department.objects.get(id=pk)
     department_form = DepartmentForm(instance=department)
@@ -504,7 +524,7 @@ def updateDepartment(request, pk):
     }
     return render(request, 'app/addUser/updateDepartment.html', context)
 
-
+@login_required(login_url='/')
 def addCategory(request):
     category_form = CategoryForm()
 
@@ -526,7 +546,7 @@ def addCategory(request):
     }
     return render(request, 'app/addUser/category.html', context)
 
-
+@login_required(login_url='/')
 def updateJobGroup(request, pk):
     category = jobGroup.objects.get(id=pk)
     category_form = jobGroupForm(instance=category)
@@ -544,13 +564,14 @@ def updateJobGroup(request, pk):
     }
     return render(request, 'app/addUser/updateJobGroup.html', context)
 
-
+@login_required(login_url='/')
 def superUser(request):
     all_users = Worker.objects.exclude(tittle='none').exclude(tittle=None)
     
     context = {'all_users':all_users}
     return render(request, 'app/addUser/superUser.html', context)
 
+@login_required(login_url='/')
 def UpdateSuperUser(request, pk):
     worker = Worker.objects.get(id=pk)
     form = WorkerForm(instance=worker)
@@ -567,7 +588,7 @@ def UpdateSuperUser(request, pk):
     return render(request, 'app/addUser/updateSuper.html', context)
 
 
-
+@login_required(login_url='/')
 def updateUser1(request, pk):
     categories = Category.objects.all()
     worker = Worker.objects.get(id=pk)
@@ -587,6 +608,7 @@ def updateUser1(request, pk):
     context = {'form': form, 'categories':categories,'workers': workers}
     return render(request, 'app/addUser/update.html', context)
 
+@login_required(login_url='/')
 def deleteUser(request, pk):
     worker = Worker.objects.get(id=pk)
     if request.method == 'POST':
@@ -598,6 +620,7 @@ def deleteUser(request, pk):
     }
     return render(request, 'app/addUser/delete.html', context)
 
+@login_required(login_url='/')
 def deleteDepartment(request, pk):
     department = Department.objects.get(id=pk)
     if request.method == 'POST':
@@ -608,6 +631,8 @@ def deleteDepartment(request, pk):
         'department':department,
     }
     return render(request, 'app/addUser/delete.html', context)
+
+@login_required(login_url='/')
 def deleteJob(request, pk):
     job = jobGroup.objects.get(id=pk)
     if request.method == 'POST':
@@ -619,6 +644,7 @@ def deleteJob(request, pk):
     }
     return render(request, 'app/addUser/delete.html', context)
 
+@login_required(login_url='/')
 def Search(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     
@@ -649,14 +675,14 @@ def Search(request):
     }
     return render(request, 'app/addUser/search.html', context)
 
-
+@login_required(login_url='/')
 def myProfile(request):
     worker = request.user.worker
     
     context = {'worker':worker}
     return render(request, 'app/profile.html', context)
 
-
+@login_required(login_url='/')
 def UpdateProfile(request):
     worker = request.user.worker
     form = WorkerForm(instance=worker)
@@ -672,6 +698,7 @@ def UpdateProfile(request):
     context = {'form': form}
     return render(request, 'app/updateProfile.html', context)
 
+@login_required(login_url='/')
 def UpdateProfile1(request):
     password_form = PasswordChangeForm(request.user)
     if request.method == 'POST':

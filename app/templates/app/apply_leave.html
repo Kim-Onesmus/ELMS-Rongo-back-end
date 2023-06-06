@@ -26,8 +26,13 @@
                                             <h3>Apply Leave</h3>
                                             <form action="" method="POST">
                                                 {% csrf_token %}
-                                                {% for text in messages %}
-                                                <p style="color: red;">{{text}}</p>
+                                                {% for message in messages %}
+                                                <div class="alert {{message.tags}} alert-dismissible" role="alert">
+                                                    <button type="submit" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    {{message | safe}}
+                                                </div>
                                                 {% endfor %}
                                                 <div class="single-acc-field">
                                                     <label for="email">Leave Type</label>

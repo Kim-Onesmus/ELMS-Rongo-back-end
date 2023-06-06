@@ -20,8 +20,13 @@
                 {% if form %}
                 <h2 class="mt-3 text-center text-dark">Update Profile</h2>
                 <p class="text-center"></p>
-                {% for data in messages %}
-                <p style="color: red;text-align: center;">{{data}}</p>
+                {% for message in messages %}
+                <div class="alert {{message.tags}} alert-dismissible" role="alert">
+                    <button type="submit" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{message | safe}}
+                </div>
                 {% endfor %}
                 <form class="mt-4" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -30,11 +35,11 @@
                             <div class="row">
                                 {{form.user.as_hidden}}
                                 {{form.leave_days.as_hidden}}
+                                {{form.job_group.as_hidden}}
+                                {{form.reporting_to.as_hidden}}
+                                {{form.department.as_hidden}}
+                                {{form.username.as_hidden}}
                             <tr style="color: black;">
-                                <tr style="color: black;">
-                                    <th>PF Number</th>
-                                    <td>{{form.username}}</td>
-                                </tr>
                                 <tr style="color: black;">
                                     <th>Namer</th>
                                     <td>{{form.name}}</td>
@@ -42,18 +47,6 @@
                                 <tr style="color: black;">
                                     <th>Email</th>
                                     <td>{{form.email}}</td>
-                                </tr>
-                                <tr style="color: black;">
-                                    <th>Department</th>
-                                    <td>{{form.department}}</td>
-                                </tr>
-                                <tr style="color: black;">
-                                    <th>Job Group</th>
-                                    <td>{{form.job_group}}</td>
-                                </tr>
-                                <tr style="color: black;">
-                                    <th>Reporting To</th>
-                                    <td>{{form.reporting_to}}</td>
                                 </tr>
                                 <tr style="color: black;">
                                     <th>Image</th>
