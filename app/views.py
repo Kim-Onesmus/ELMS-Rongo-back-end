@@ -144,6 +144,11 @@ def History(request):
     context = {'leaves':leaves}
     return render(request, 'app/history.html', context)
 
+
+@login_required(login_url='/')
+def CarryForward(request):
+    return render(request, 'app/carryForward.html')
+
 @login_required(login_url='/')
 def Calendar(request):
     return render(request, 'app/calendar.html')

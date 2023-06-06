@@ -8,6 +8,7 @@ urlpatterns = [
     path('apply_leave', views.applyLeave, name='apply_leave'),
     path('download', views.Download, name='download'),
     path('history', views.History, name='history'),
+    path('carryForward', views.CarryForward, name='carryForward'),
     path('calendar', views.Calendar, name='calendar'),
     path('documentation', views.Documentation, name='documentation'),
     path('logout', views.Logout, name='logout'),

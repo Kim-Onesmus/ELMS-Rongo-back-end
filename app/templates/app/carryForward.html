@@ -1,0 +1,87 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-7 align-self-center">
+                    <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">{{request.user.worker.name}}!</h3>
+                    <div class="d-flex align-items-center">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb m-0 p-0">
+                                <li class="breadcrumb-item"><a href="{% url 'homepage' %}">My Profile</a>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div style="box-shadow: 0 15px 30px rgba(8, 8, 8, 0.556);" class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                    <thead>
+                                        <tr style="color: black;">
+                                            <tr style="color: black;">
+                                                <th>PF Number</th>
+                                                <td>{{worker.username}}</td>
+                                            </tr>
+                                            <tr style="color: black;">
+                                                <th>Name</th>
+                                                <td>{{worker.name}}</td>
+                                            </tr>
+                                            <tr style="color: black;">
+                                                <th>Email</th>
+                                                <td>{{worker.email}}</td>
+                                            </tr>
+                                            <tr style="color: black;">
+                                                <th>Department</th>
+                                                <td>{{worker.department}}</td>
+                                            </tr>
+                                            <tr style="color: black;">
+                                                <th>Job Group</th>
+                                                <td>{{worker.job_group}}</td>
+                                            </tr>
+                                            <tr style="color: black;">
+                                                <th>Reporting To</th>
+                                                <td>{{worker.reporting_to}}</td>
+                                            </tr>
+                                            <tr style="color: black;">
+                                                <th>Image</th>
+                                                <td>
+                                                    <span class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">
+                                                        {% if worker.image %}
+                                                        <img style="width: 200px; height: 200px;border-radius: 50%;" src="{{ worker.image.url }}" alt="">
+                                                        {% else %}
+                                                            <img style="width: 200px; height: 200px;border-radius: 50%;" src="{% static 'assets/images/default.jpeg' %}" alt="Default Profile Photo">
+                                                        {% endif %}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <ul class="pagination float-right">
+                                    <li class="page-item"> To edit profile click
+                                        <a style="color: dodgerblue;padding-right: 40px;" href="{% url 'updateProfile' %}" tabindex="-1"><u>here.</u></a>
+                                        and to change Password click
+                                        <a style="color: dodgerblue;padding-right: 40px;" href="{% url 'updateProfile1' %}" tabindex="-1"><u>here.</u></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer text-center text-muted">
+            All Rights Reserved. Designed and Developed by
+            <a href="https://wrappixel.com">..........</a>.
+        </footer>
+    </div>
+</div>
+{% endblock content %}
