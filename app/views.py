@@ -53,6 +53,8 @@ def Homepage(request):
 @login_required(login_url='/')
 def applyLeave(request):
     worker = request.user.worker
+    user = request.user.worker
+    # leave = Leave.objects.filter(user=user)
     available_leave_days = worker.leave_days
 
     if request.method == 'POST':
@@ -93,23 +95,20 @@ def applyLeave(request):
             leave_details = Leave.objects.create(user=worker, leave_type=leave_type, start_date=start_date, end_date=end_date, duties=duties, comment=comment)
             leave_details.save()
             
-            try:
-                subject = 'Leave Application Received - Acknowledgement'
-                context = {
-                    'user': worker,
-                    'leave_type': leave_type,
-                    'start_date': start_date,
-                    'end_date': end_date,
-                }
-                html_message = render_to_string('app/email/apply.html', context)
-                plain_message = strip_tags(html_message)
+            
+            subject = 'Leave Application Received - Acknowledgement'
+            context = {
+                'user': worker,
+                'leave_type': leave_type,
+                'start_date': start_date,
+                'end_date': end_date,
+            }
+            html_message = render_to_string('app/email/apply.html', context)
+            plain_message = strip_tags(html_message)
 
-                email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [worker.email])
-                email.attach_alternative(html_message, "text/html")
-                email.send()
-
-            except:
-                raise Http404
+            email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [worker.email])
+            email.attach_alternative(html_message, "text/html")
+            email.send()
                 
             messages.info(request, 'Leave application submitted successfully')
             return redirect('apply_leave')
