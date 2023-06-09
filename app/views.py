@@ -459,7 +459,6 @@ def updateUser(request):
     worker = user.worker
     
     workers = Worker.objects.exclude(tittle='none').values('pk', 'username','name')
-
     if request.method == 'POST':
         form = WorkerForm(request.POST,request.FILES, instance=worker)
         if form.is_valid():
