@@ -444,7 +444,6 @@ def addUser(request):
 
                 client_details = Worker.objects.create(user=user, username=user.username, email=email)
                 client_details.save()
-                
                 messages.info(request, 'Account created')
                 return redirect(reverse('update_user') + '?username=' + user.username)
         else:
