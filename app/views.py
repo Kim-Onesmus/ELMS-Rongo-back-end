@@ -529,7 +529,6 @@ def updateDepartment(request, pk):
                 department.save()
                 messages.info(request, 'updated')
                 return redirect('home')
-
     context = {
         'department_form': department_form
     }
