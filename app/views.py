@@ -93,7 +93,7 @@ def applyLeave(request):
             worker.save()
 
             leave_details = Leave.objects.create(user=worker, leave_type=leave_type, start_date=start_date, end_date=end_date, duties=duties, comment=comment)
-            leave_details.save()
+            leave_details.save() 
             
             
             subject = 'Leave Application Received - Acknowledgement'
