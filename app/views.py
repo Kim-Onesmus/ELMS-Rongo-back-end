@@ -303,9 +303,23 @@ def Rejected(request):
 def allLeaves1(request):
     hod = request.user.worker
     leaves = Leave.objects.filter(user__reporting_to=hod)
+    rejected = leaves.filter(leave_status='Rejected')
+    pending = leaves.filter(leave_status='Pending')
+    accepted = leaves.filter(leave_status='Accepted')
+    
+    leave_count = leaves.count()
+    rejected_count = rejected.count()
+    pending_count = pending.count()
+    accepted_count = accepted.count()
+    
+    context = {
+        'leaves':leaves,
+        "leave_count":leave_count,
+        'rejected_count': rejected_count,
+        'pending_count':pending_count,
+        'accepted_count':accepted_count,
+        }
 
-
-    context = {'leaves':leaves,}
     return render(request, 'app/hod/all_leaves1.html', context)
 
 @login_required(login_url='/')
