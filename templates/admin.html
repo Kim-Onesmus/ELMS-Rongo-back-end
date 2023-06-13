@@ -75,7 +75,7 @@
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">{{user.username}}</span></span>
+                                        class="text-dark">{{request.user.worker.name}}</span></span>
                             </a>
                         </li>
                     </ul>
@@ -91,7 +91,7 @@
                         <li><p style="color: black;text-align: center;font-weight: 600;">Human Resource</p></li><hr>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'all_leaves' %}"
                                 aria-expanded="false"><span style="color: black;"
-                                    class="hide-menu">All Leaves</span></a></li>
+                                    class="hide-menu">Dashboard</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'pending' %}"
                             aria-expanded="false"><span style="color: black;"
                                 class="hide-menu">Pending Leaves</span></a></li>

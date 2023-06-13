@@ -224,15 +224,23 @@ def Search1(request):
 
 @login_required(login_url='/')
 def allLeaves(request):
-    leaves = Leave.objects.all()
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-    leave = Leave.objects.filter(
-        Q(leave_type__icontains=q) |
-        Q(start_date__icontains=q) |
-        Q(end_date__icontains=q)
-    )
-
-    context = {'leaves':leaves, 'leave':leave}
+    leaves = Leave.objects.filter(leave_status='Accepted')
+    rejected = Leave.objects.filter(leave_status1='Rejected')
+    pending = Leave.objects.filter(leave_status1='Pending')
+    accepted = Leave.objects.filter(leave_status1='Accepted')
+    
+    leave_count = leaves.count()
+    rejected_count = rejected.count()
+    pending_count = pending.count()
+    accepted_count = accepted.count()
+    
+    context = {
+        'leaves':leaves,
+        "leave_count":leave_count,
+        'rejected_count': rejected_count,
+        'pending_count':pending_count,
+        'accepted_count':accepted_count,
+        }
     return render(request, 'app/hr/all_leaves.html', context)
 
 
@@ -269,41 +277,23 @@ def Action(request, pk):
 
 @login_required(login_url='/')
 def Pending(request):
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-    leave = Leave.objects.filter(
-        Q(leave_type__icontains=q) |
-        Q(start_date__icontains=q) |
-        Q(end_date__icontains=q)
-    )
     pending = Leave.objects.filter(leave_status1='Pending')
     
-    context = {'pending':pending, 'leave':leave}
+    context = {'pending':pending}
     return render(request, 'app/hr/pending.html', context)
 
 @login_required(login_url='/')
 def Accepted(request):
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-    leave = Leave.objects.filter(
-        Q(leave_type__icontains=q) |
-        Q(start_date__icontains=q) |
-        Q(end_date__icontains=q)
-    )
     accepted = Leave.objects.filter(leave_status1='Accepted')
     
-    context = {'accepted':accepted, 'leave':leave}
+    context = {'accepted':accepted}
     return render(request, 'app/hr/accepted.html', context)
 
 @login_required(login_url='/')
 def Rejected(request):
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-    leave = Leave.objects.filter(
-        Q(leave_type__icontains=q) |
-        Q(start_date__icontains=q) |
-        Q(end_date__icontains=q)
-    )
     rejected = Leave.objects.filter(leave_status1='Rejected')
     
-    context = {'rejected':rejected, 'leave':leave}
+    context = {'rejected':rejected}
     return render(request, 'app/hr/rejected.html', context)
 
 
@@ -313,13 +303,6 @@ def Rejected(request):
 def allLeaves1(request):
     hod = request.user.worker
     leaves = Leave.objects.filter(user__reporting_to=hod)
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-    leavess = Leave.objects.filter(
-        Q(user__reporting_to=hod) |
-        Q(leave_type__icontains=q) |
-        Q(start_date__icontains=q) |
-        Q(end_date__icontains=q)
-    )
 
 
     context = {'leaves':leaves,}
