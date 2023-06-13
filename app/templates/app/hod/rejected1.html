@@ -25,6 +25,7 @@
                                             <th>Leave Type</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
+                                            <th>LeaveDays Requested</th>
                                             <th>Leave days remaining</th>
                                             <th>Leave Status/Comment</th>
                                             <th>Action</th>
@@ -35,8 +36,8 @@
                                         {% for data in rejected reversed %}
                                         <tr>
                                             <td>
-                                                <img src="{{data.user.image.url}}" alt="user" class="rounded-circle" width="45"
-                                                height="45">
+                                                <!-- <img src="{{data.user.image.url}}" alt="user" class="rounded-circle" width="45"
+                                                height="45"> -->
                                                 <!-- {{data.user.username}} -->
                                                 <p>{{data.user}}</p>
                                             </td>
@@ -44,6 +45,7 @@
                                             <td>{{data.leave_type}}</td>
                                             <td>{{data.start_date}}</a></td>
                                             <td>{{data.end_date}}</a></td>
+                                            <td>{{ data.end_date|timeuntil:data.start_date }}</td>
                                             <td>{{data.user.leave_days}}</td>
                                             <td><span style="color: green;">{{data.leave_status}}</span><br>{{data.comment1}}</td>
                                             <td><button style="background-color: darkcyan;"><a style="color: black;" href="{% url 'action1' data.id %}">Action</a></button></td>

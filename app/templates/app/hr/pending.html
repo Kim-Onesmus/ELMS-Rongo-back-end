@@ -23,6 +23,7 @@
                                             <th>Leave Type</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
+                                            <th>LeaveDays Requested</th>
                                             <th>Leae days remaining</th>
                                             <th>Leave Status</th>
                                             <th>Action</th>
@@ -39,14 +40,15 @@
                                         {% if data.leave_status == 'Accepted' %}
                                         <tr>
                                             <td>
-                                                <img src="{{data.user.image.url}}" alt="user" class="rounded-circle" width="45"
-                                                height="45">
+                                                <!-- <img src="{{data.user.image.url}}" alt="user" class="rounded-circle" width="45"
+                                                height="45"> -->
                                                 <p>{{data.user}}</p>
                                             </td>
                                             <td>{{data.user.department}}</td>
                                             <td>{{data.leave_type}}</td>
                                             <td>{{data.start_date}}</td>
                                             <td>{{data.end_date}}</td>
+                                            <td>{{ data.end_date|timeuntil:data.start_date }}</td>
                                             <td>{{data.user.leave_days}}</td>
                                             <td><span style="color: green;">{{data.leave_status1}}</span><br>{{data.comment1}}</a></td>
                                             <td><button style="background-color: darkcyan;"><a style="color: black;" href="{% url 'action' data.id %}">Action</a></button></td>
