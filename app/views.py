@@ -21,7 +21,7 @@ from django.db.models import Q
 # Create your views here.
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/')
 def Homepage(request):
     user = request.user.worker
 
