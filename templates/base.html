@@ -72,7 +72,7 @@
                                 aria-haspopup="true" aria-expanded="false">
                                 <img style="width: 50px;height: 50px;border-radius: 50%;" src="{{request.user.worker.image.url}}" alt="user">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">{{user.username}}</span> <i data-feather="chevron-down"
+                                        class="text-dark">{{request.user.worker.name}}</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
@@ -122,9 +122,9 @@
                                     class="hide-menu">Login
                                 </span></a>
                         </li> -->
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'documentation' %}"
+                        <!-- <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'documentation' %}"
                                 aria-expanded="false"><i style="color: black;" data-feather="edit-3" class="feather-icon"></i><span style="color: black;"
-                                    class="hide-menu">Documentation</span></a></li>
+                                    class="hide-menu">Documentation</span></a></li> -->
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'logout' %}"
                                 aria-expanded="false"><i style="color: black;" data-feather="log-out" class="feather-icon"></i><span style="color: black;"
                                     class="hide-menu">Logout</span></a></li>

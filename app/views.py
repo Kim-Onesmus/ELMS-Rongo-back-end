@@ -21,34 +21,34 @@ from django.db.models import Q
 # Create your views here.
 
 
-
-@login_required(login_url='/')
+@login_required(login_url='/login/')
 def Homepage(request):
     user = request.user.worker
+
+    # Get leaves for the logged-in user
     leaves = Leave.objects.filter(user=user)
-    
+    total_leaves = leaves.count()
+
+    # Count leave status for the logged-in user
+    leave_accepted = leaves.filter(leave_status='Accepted', leave_status1='Accepted').count()
+    leave_reject = leaves.filter(leave_status='Rejected', leave_status1='Rejected').count()
+    leave_pending = leaves.filter(leave_status='Pending', leave_status1='Pending').count()
+
+    # Get other data you need (e.g., total workers)
     worker = Worker.objects.all()
     all_workers = worker.count()
-    
-    today = datetime.now().date()
-    leave_accepted = 0
-    all_leaves = Leave.objects.all()
-    for leave in all_leaves:
-        start = datetime.strptime(str(leave.start_date), '%Y-%m-%d').date()
-        end = datetime.strptime(str(leave.end_date), '%Y-%m-%d').date()
+
+    context = {
+        'all_workers': all_workers,
+        'leaves': leaves,
+        'leave_accepted': leave_accepted,
+        'leave_reject': leave_reject,
+        'leave_pending': leave_pending,
+        'total_leaves': total_leaves
         
-        if (end - start) != 0:
-            accepted = Leave.objects.filter(leave_status='Accepted', leave_status1='Accepted')
-            leave.save()
-            leave_accepted = accepted.count()
-    rejected = Leave.objects.filter(leave_status='Rejected', leave_status1='Rejected')
-    leave_reject = rejected.count()
-    
-    pending = Leave.objects.filter(leave_status='Pending', leave_status1='Pending')
-    leave_pending = pending.count()
-    
-    context = {'all_workers':all_workers,'leaves':leaves, 'leave_accepted':leave_accepted,'leave_reject':leave_reject, 'leave_pending':leave_pending,}
+    }
     return render(request, 'app/index.html', context)
+
 
 @login_required(login_url='/')
 def applyLeave(request):
