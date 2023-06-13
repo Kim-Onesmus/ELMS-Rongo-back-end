@@ -88,9 +88,6 @@ def applyLeave(request):
 
         duration = (end - start).days
         if duration <= available_leave_days:
-            available_leave_days -= duration
-            worker.leave_days = available_leave_days
-            worker.save()
 
             leave_details = Leave.objects.create(user=worker, leave_type=leave_type, start_date=start_date, end_date=end_date, duties=duties, comment=comment)
             leave_details.save() 
@@ -225,9 +222,9 @@ def Search1(request):
 @login_required(login_url='/')
 def allLeaves(request):
     leaves = Leave.objects.filter(leave_status='Accepted')
-    rejected = Leave.objects.filter(leave_status1='Rejected')
-    pending = Leave.objects.filter(leave_status1='Pending')
-    accepted = Leave.objects.filter(leave_status1='Accepted')
+    rejected = leaves.filter(leave_status1='Rejected')
+    pending = leaves.filter(leave_status1='Pending')
+    accepted = leaves.filter(leave_status1='Accepted')
     
     leave_count = leaves.count()
     rejected_count = rejected.count()
@@ -246,32 +243,52 @@ def allLeaves(request):
 
 @login_required(login_url='/')
 def Action(request, pk):
-    leaves = Leave.objects.get(id=pk)
-    form = LeaveForm(instance=leaves)
+    leave = Leave.objects.get(id=pk)
+    form = LeaveForm(instance=leave)
+    worker = request.user.worker
+    available_leave_days = worker.leave_days
+
     if request.method == 'POST':
-        form = LeaveForm(request.POST, instance=leaves)
+        form = LeaveForm(request.POST, instance=leave)
         if form.is_valid():
+            leave_status_before = leave.leave_status1  
             form.save()
-            
+
+            if leave.leave_status1 == 'Accepted':
+                start_date = leave.start_date
+                end_date = leave.end_date
+                start = datetime.strptime(str(start_date), '%Y-%m-%d').date()
+                end = datetime.strptime(str(end_date), '%Y-%m-%d').date()
+                duration = (end - start).days
+
+                if duration <= available_leave_days:
+                    available_leave_days -= duration
+                    worker.leave_days = available_leave_days
+                    worker.save()
+                else:
+                    messages.error(request, 'Not enough leave days available')
+                    return redirect('all_leaves')
+
             subject = 'Leave Status'
             context = {
-                'user': leaves.user,
-                'leave_type': leaves.leave_type,
-                'start_date': leaves.start_date,
-                'end_date': leaves.end_date,
-                'leave_status1':leaves.leave_status1,
+                'user': leave.user,
+                'leave_type': leave.leave_type,
+                'start_date': leave.start_date,
+                'end_date': leave.end_date,
+                'leave_status1': leave.leave_status1,
             }
-            
+
             html_message = render_to_string('app/email/hr.html', context)
             plain_message = strip_tags(html_message)
-            
-            email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [leaves.user.email])
+
+            email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [leave.user.email])
             email.attach_alternative(html_message, "text/html")
             email.send()
-            
+
+            messages.success(request, 'Leave status has been updated.')
             return redirect('all_leaves')
-        
-    context = {'form':form}
+
+    context = {'form': form, 'reminder': available_leave_days}
     return render(request, 'app/hr/action.html', context)
 
 
