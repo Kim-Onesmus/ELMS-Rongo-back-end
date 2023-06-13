@@ -54,7 +54,6 @@
                                 <a class="dropdown-item" href="{% url 'apply_leave' %}">Apply Leave</a>
                                 <a class="dropdown-item" href="{% url 'download' %}">Download Leave Form</a>
                                 <a class="dropdown-item" href="{% url 'history' %}">Leave History</a>
-                                <a class="dropdown-item" href="{% url 'documentation' %}">Documentation</a>
                             </div>
                         </li>
                     </ul>
@@ -75,7 +74,7 @@
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark">{{user.username}}</span></span>
+                                        class="text-dark">{{request.user.worker.name}}</span></span>
                             </a>
                         </li>
                     </ul>
@@ -91,7 +90,7 @@
                         <li><p style="color: black;text-align: center;font-weight: 600;">H.O.D {{request.user.worker.department}}</p></li><hr>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'all_leaves1' %}"
                                 aria-expanded="false"><span style="color: black;"
-                                    class="hide-menu">All Leaves</span></a></li>
+                                    class="hide-menu">Dashboard</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'pending1' %}"
                             aria-expanded="false"><span style="color: black;"
                                 class="hide-menu">Pending Leaves</span></a></li>
