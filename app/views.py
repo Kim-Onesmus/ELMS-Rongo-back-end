@@ -278,7 +278,8 @@ def Action(request, pk):
                 end_date = leave.end_date
                 start = datetime.strptime(str(start_date), '%Y-%m-%d').date()
                 end = datetime.strptime(str(end_date), '%Y-%m-%d').date()
-                duration = (end - start).days + 1  # Include the end date
+                
+                duration = (end - start).days + 1
 
                 leave_days = 0
                 for i in range(duration):
@@ -289,7 +290,6 @@ def Action(request, pk):
                 if leave_days <= available_leave_days:
                     worker.leave_days -= leave_days
                     worker.save()
-                    
                 else:
                     messages.error(request, 'Not enough leave days available')
                     return redirect('all_leaves')
