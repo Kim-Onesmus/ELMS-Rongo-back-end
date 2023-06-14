@@ -3,6 +3,7 @@ from django.contrib.auth.models import auth, User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
+from datetime import datetime, timedelta, date
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
 from django.http  import Http404
@@ -31,6 +32,12 @@ kenya_holidays = [
     date(2023, 12, 25),  # Christmas Day
     date(2023, 12, 26),  # Boxing Day
 ]
+def is_weekend(date):
+    return date.weekday() >= 5  # Saturday = 5, Sunday = 6
+
+def is_holiday(date):
+    return date in kenya_holidays
+
 
 @login_required(login_url='/')
 def Homepage(request):
@@ -96,8 +103,9 @@ def applyLeave(request):
         if not worker_duties:
             messages.error(request, 'Invalid PF number')
             return redirect('apply_leave')
+        
+        duration = (end - start).days + 1
 
-        duration = (end - start).days
         if duration <= available_leave_days:
 
             leave_details = Leave.objects.create(user=worker, leave_type=leave_type, start_date=start_date, end_date=end_date, duties=duties, comment=comment)
@@ -265,17 +273,23 @@ def Action(request, pk):
             leave_status_before = leave.leave_status1  
             form.save()
 
-            if leave.leave_status1 == 'Accepted':
+            if leave_status_before != 'Accepted' and leave.leave_status1 == 'Accepted':
                 start_date = leave.start_date
                 end_date = leave.end_date
                 start = datetime.strptime(str(start_date), '%Y-%m-%d').date()
                 end = datetime.strptime(str(end_date), '%Y-%m-%d').date()
-                duration = (end - start).days
+                duration = (end - start).days + 1  # Include the end date
 
-                if duration <= available_leave_days:
-                    available_leave_days -= duration
-                    worker.leave_days = available_leave_days
+                leave_days = 0
+                for i in range(duration):
+                    current_date = start + timedelta(days=i)
+                    if not is_weekend(current_date) and not is_holiday(current_date):
+                        leave_days += 1
+
+                if leave_days <= available_leave_days:
+                    worker.leave_days -= leave_days
                     worker.save()
+                    
                 else:
                     messages.error(request, 'Not enough leave days available')
                     return redirect('all_leaves')
@@ -301,6 +315,8 @@ def Action(request, pk):
 
     context = {'form': form, 'reminder': available_leave_days}
     return render(request, 'app/hr/action.html', context)
+
+
 
 
 @login_required(login_url='/')
