@@ -20,6 +20,17 @@ from django.urls import reverse
 from django.db.models import Q
 # Create your views here.
 
+kenya_holidays = [
+    date(2023, 1, 1),  # New Year's Day
+    date(2023, 4, 7),  # Good Friday
+    date(2023, 4, 10),  # Easter Monday
+    date(2023, 5, 1),  # Labor Day
+    date(2023, 6, 1),  # Madaraka Day
+    date(2023, 10, 20),  # Mashujaa Day
+    date(2023, 12, 12),  # Jamhuri Day
+    date(2023, 12, 25),  # Christmas Day
+    date(2023, 12, 26),  # Boxing Day
+]
 
 @login_required(login_url='/')
 def Homepage(request):
