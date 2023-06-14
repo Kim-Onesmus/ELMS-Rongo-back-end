@@ -9,6 +9,7 @@ TITTLE = [
     ('none','None'),
     ('vc','Vice Chancellor'),
     ('dvc', 'Deputy Vice Chancellor'),
+    ('dean', 'Dean'),
     ('hod','Head Of Department'),
     ('hr','Human Resource'),
 ]
