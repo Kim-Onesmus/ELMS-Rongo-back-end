@@ -193,6 +193,9 @@ def Login(request):
             elif request.user.worker.tittle == 'vc':
                 return redirect('all_leaves1')
             
+            elif request.user.worker.tittle == 'dean':
+                return redirect('all_leaves1')
+            
             elif request.user.worker.tittle == 'dvc':
                 return redirect('all_leaves1')
             
