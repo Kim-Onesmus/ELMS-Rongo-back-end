@@ -264,7 +264,7 @@ def allLeaves(request):
 def Action(request, pk):
     leave = Leave.objects.get(id=pk)
     form = LeaveForm(instance=leave)
-    worker = request.user.worker
+    worker = leave.user
     available_leave_days = worker.leave_days
 
     if request.method == 'POST':
@@ -273,7 +273,7 @@ def Action(request, pk):
             leave_status_before = leave.leave_status1  
             form.save()
 
-            if leave_status_before != 'Accepted' and leave.leave_status1 == 'Accepted':
+            if leave.leave_status1 == 'Accepted':
                 start_date = leave.start_date
                 end_date = leave.end_date
                 start = datetime.strptime(str(start_date), '%Y-%m-%d').date()
@@ -315,7 +315,6 @@ def Action(request, pk):
 
     context = {'form': form, 'reminder': available_leave_days}
     return render(request, 'app/hr/action.html', context)
-
 
 
 
