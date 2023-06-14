@@ -87,7 +87,7 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li><p style="color: black;text-align: center;font-weight: 600;">H.O.D {{request.user.worker.department}}</p></li><hr>
+                        <li><p style="color: black;text-align: center;font-weight: 600;"><span style="text-transform: capitalize;">{{request.user.worker.tittle}}</span> {{request.user.worker.department}}</p></li><hr>
                         <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'all_leaves1' %}"
                                 aria-expanded="false"><span style="color: black;"
                                     class="hide-menu">Dashboard</span></a></li>
